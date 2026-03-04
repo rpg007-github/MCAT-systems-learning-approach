@@ -18,6 +18,29 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+
+/* ─── Skip link ─── */
+.skip-link {
+  position:absolute; top:-100px; left:1rem;
+  background:#005fcc; color:#fff;
+  padding:0.6rem 1.2rem; border-radius:0 0 6px 6px;
+  font-weight:700; font-size:0.95rem; text-decoration:none;
+  z-index:9999; transition:top 0.2s;
+}
+.skip-link:focus { top:0; }
+
+/* ─── Screen-reader only ─── */
+.sr-only {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+/* ─── WCAG 2.1 AA focus indicators ─── */
+:focus-visible {
+  outline:3px solid #005fcc !important;
+  outline-offset:2px !important;
+}
+
 .site-header { background:linear-gradient(135deg,#2c2416,#4a3a28); color:#f5f0e8; padding:2.5rem 2rem 2rem; position:relative; overflow:hidden; }
 .site-header::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 30% 70%,rgba(176,88,48,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(58,107,140,0.1) 0%,transparent 50%); pointer-events:none; }
 .header-inner { max-width:1100px; margin:0 auto; position:relative; z-index:1; }
@@ -30,9 +53,9 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 .nav-inner::-webkit-scrollbar { display:none; }
 .nav-btn { padding:0.5rem 1rem; border:1.5px solid var(--border); border-radius:8px; background:transparent; font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:500; color:var(--text-muted); cursor:pointer; white-space:nowrap; transition:all 0.2s; }
 .nav-btn:hover { border-color:var(--accent); color:var(--accent); }
-.nav-btn.active { background:var(--accent); border-color:var(--accent); color:white; }
+.nav-btn.active, .nav-btn[aria-selected="true"] { background:var(--accent); border-color:var(--accent); color:white; }
 .nav-btn.special { border-color:var(--purple); color:var(--purple); }
-.nav-btn.special:hover,.nav-btn.special.active { background:var(--purple); border-color:var(--purple); color:white; }
+.nav-btn.special:hover,.nav-btn.special.active,.nav-btn.special[aria-selected="true"] { background:var(--purple); border-color:var(--purple); color:white; }
 .main-content { max-width:1100px; margin:0 auto; padding:2rem; }
 .section-panel { display:none; } .section-panel.active { display:block; }
 .learn-block { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:2rem; margin-bottom:1.5rem; box-shadow:var(--shadow); }
@@ -107,65 +130,99 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 .tab-btn.active { background:var(--accent); color:white; }
 .tab-btn:hover:not(.active) { background:var(--accent-bg); }
 .tab-content { display:none; } .tab-content.active { display:block; }
+
+/* ─── Worked Example boxes ─── */
+.worked-example {
+  background:linear-gradient(135deg,#fdf3ec,#fdf8f4);
+  border:2px solid var(--accent);
+  border-radius:var(--radius);
+  padding:1.5rem;
+  margin:1.2rem 0;
+  position:relative;
+}
+.worked-example::before {
+  content:"Worked Example";
+  position:absolute;
+  top:-1px; left:1rem;
+  background:var(--accent);
+  color:white;
+  font-size:0.68rem; font-weight:700;
+  letter-spacing:0.08em; text-transform:uppercase;
+  padding:0.2rem 0.7rem;
+  border-radius:0 0 6px 6px;
+  font-family:'JetBrains Mono',monospace;
+}
+.worked-example h4 {
+  margin-top:0.9rem;
+  font-family:'Source Serif 4',serif;
+  font-size:1.05rem;
+  color:var(--accent);
+}
+.step-box {
+  background:var(--card);
+  border-left:4px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:0.75rem 1rem;
+  margin:0.6rem 0;
+}
+.step-label {
+  font-size:0.7rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--accent); margin-bottom:0.25rem;
+  font-family:'JetBrains Mono',monospace;
+}
+
 @media(max-width:768px) { .site-header{padding:1.5rem 1rem;} .site-header h1{font-size:1.4rem;} .nav-bar{padding:0.6rem 1rem;} .main-content{padding:1rem;} .learn-block,.q-card,.pattern-card{padding:1.25rem;} }
-
-/* ─── WCAG 2.1 AA: Visible focus indicators ─── */
-:focus-visible {
-  outline: 3px solid #005fcc !important;
-  outline-offset: 2px !important;
-}
-.tab-btn:focus-visible, .nav-btn:focus-visible {
-  outline: 3px solid #005fcc !important;
-  outline-offset: 2px !important;
-}
-/* ─── Skip link ─── */
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: 1rem;
-  background: #005fcc;
-  color: #fff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 0 0 6px 6px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  text-decoration: none;
-  z-index: 9999;
-  transition: top 0.2s;
-}
-.skip-link:focus {
-  top: 0;
-}
-
 </style>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
+<!-- Live announcer for screen readers -->
+<div id="live-announce" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
 <header class="site-header">
 <div class="header-inner">
 <div class="header-top">
-<div class="header-icon">&#9764;</div>
+<div class="header-icon" aria-hidden="true">&#9764;</div>
 <h1>MCAT Systems Learning Module</h1>
 </div>
 <p class="subtitle">Learn each organ system, then practice MCAT-style questions that test how systems interact. A learning tool, not just an assessment.</p>
 </div>
 </header>
-<nav class="nav-bar">
-<div class="nav-inner" id="navBar">
-<button role="tab" aria-selected="true"  class="nav-btn active" data-panel="guide">Logic Patterns</button>
-<button role="tab" aria-selected="false"  class="nav-btn" data-panel="cardio">Cardiovascular</button>
-<button role="tab" aria-selected="false"  class="nav-btn" data-panel="renal">Renal</button>
-<button role="tab" aria-selected="false"  class="nav-btn" data-panel="pulmonary">Pulmonary</button>
-<button role="tab" aria-selected="false"  class="nav-btn" data-panel="digestive">Digestive</button>
-<button role="tab" aria-selected="false"  class="nav-btn" data-panel="immune">Immune</button>
-<button role="tab" aria-selected="false"  class="nav-btn" data-panel="endocrine">Endocrine</button>
-<button role="tab" aria-selected="false"  class="nav-btn" data-panel="nervous">Nervous</button>
-<button role="tab" aria-selected="false"  class="nav-btn special" data-panel="integration">Systems Integration</button>
+
+<nav class="nav-bar" aria-label="Module sections">
+<div class="nav-inner" id="navBar" role="tablist">
+<button role="tab" aria-selected="true" class="nav-btn active" data-panel="guide">Logic Patterns</button>
+<button role="tab" aria-selected="false" class="nav-btn" data-panel="cardio">Cardiovascular</button>
+<button role="tab" aria-selected="false" class="nav-btn" data-panel="renal">Renal</button>
+<button role="tab" aria-selected="false" class="nav-btn" data-panel="pulmonary">Pulmonary</button>
+<button role="tab" aria-selected="false" class="nav-btn" data-panel="digestive">Digestive</button>
+<button role="tab" aria-selected="false" class="nav-btn" data-panel="immune">Immune</button>
+<button role="tab" aria-selected="false" class="nav-btn" data-panel="endocrine">Endocrine</button>
+<button role="tab" aria-selected="false" class="nav-btn" data-panel="nervous">Nervous</button>
+<button role="tab" aria-selected="false" class="nav-btn special" data-panel="integration">Systems Integration</button>
 </div>
 </nav>
-<main class="main-content" id="mainContent"></main>
+
+<main class="main-content" id="main-content" role="main"></main>
+
+<div style="max-width:800px;margin:40px auto;padding:20px 30px;background:#fff8e1;border-left:4px solid #f9a825;border-radius:8px;font-size:14px;line-height:1.6;color:#555;">
+  <div style="font-weight:bold;font-size:15px;margin-bottom:10px;"><span aria-hidden="true">&#9888;&#65039;</span> Important Notice</div>
+  <p style="margin:0 0 10px 0;">These study resources are provided free of charge for educational purposes only. They are intended as supplemental study aids and should not be used as a substitute for your course textbooks, lecture materials, or the guidance of your instructors.</p>
+  <p style="margin:0 0 10px 0;">While every effort has been made to ensure accuracy, this content may contain errors, omissions, or information that is out of date. Science is constantly evolving, and material that was accurate at the time of writing may no longer reflect current understanding. Always verify important facts, formulas, and concepts against your official course materials.</p>
+  <p style="margin:0;">This resource is not affiliated with, endorsed by, or officially connected to any university, college, testing organization, or textbook publisher.</p>
+</div>
+
 <script>
+// ─────────────────────────────────────────────────────────────
+// LIVE ANNOUNCER
+// ─────────────────────────────────────────────────────────────
+function announce(msg) {
+  const el = document.getElementById('live-announce');
+  if (el) { el.textContent = ''; setTimeout(() => { el.textContent = msg; }, 50); }
+}
+
 // ============================================================
 // DATA
 // ============================================================
@@ -174,13 +231,13 @@ guide: {
   title:"How to Think Through MCAT Systems Questions",
   type:"guide",
   patterns:[
-    {name:"The Domino Chain",desc:"The MCAT describes a defect or drug at step 1, then asks what happens at step 5. Your job is to trace the chain link by link. Never skip steps.",example:"A patient takes an ACE inhibitor. What happens to aldosterone levels?",logic:"ACE inhibitor blocks ACE. Less angiotensin II is produced. Angiotensin II normally stimulates aldosterone release from the adrenal cortex. Less angiotensin II means less aldosterone. Answer: aldosterone decreases.",tip:"Write the chain on your scratch paper. Every arrow is a step. If the question asks about step 5, trace through steps 1 through 4 first."},
-    {name:"The Compensation Pattern",desc:"The body tries to maintain homeostasis. When one system fails, another compensates. The MCAT asks you to identify the compensation, or what happens when the compensation also fails.",example:"A patient with COPD has a chronically elevated pCO2 of 55 mmHg. Their pH is 7.37 (nearly normal). How?",logic:"The lungs cannot blow off CO2 (respiratory acidosis). The kidneys compensate by retaining bicarbonate and excreting more H+. This brings pH back toward normal.",tip:"If pH is near normal but pCO2 or HCO3- is abnormal, compensation is happening. Ask: which value moved first (primary), and which moved second to fix pH (compensation)?"},
-    {name:"The Upstream / Downstream Pattern",desc:"The MCAT places a block somewhere in a pathway and asks what accumulates upstream and what is missing downstream.",example:"A patient has a deficiency in 21-hydroxylase (used to make cortisol). What accumulates?",logic:"If the enzyme is blocked, precursors upstream accumulate and products downstream are deficient. With 21-hydroxylase deficiency, cortisol drops (downstream), ACTH rises (no negative feedback), and precursors are shunted into androgen synthesis (upstream overflow).",tip:"Draw the pathway. Mark the block with an X. Everything above the X builds up. Everything below the X drops. Then look for side pathways."},
-    {name:"The Feedback Loop Break",desc:"Normal physiology relies on negative feedback loops. The MCAT loves to break a loop and ask what happens.",example:"Surgical removal of the thyroid. What happens to TSH?",logic:"Normally, T3/T4 inhibit TSH release. Remove the thyroid: no T3/T4. No negative feedback. TSH rises because nothing tells it to stop.",tip:"For any hormone question, draw the loop: hypothalamus signals pituitary, pituitary signals gland, gland's hormone feeds back to inhibit. Then break where the question tells you."},
-    {name:"The Disease Model Scenario",desc:"The MCAT gives you a clinical vignette. You are not expected to diagnose the disease, but to understand the mechanism that produces the symptoms.",example:"A patient has fatigue, dark urine, and jaundice after eating fava beans.",logic:"This is G6PD deficiency. G6PD is needed for the pentose phosphate pathway, which produces NADPH, which regenerates glutathione, which neutralizes ROS. Without this protection, RBCs hemolyze. Hemoglobin is broken down to bilirubin (jaundice) and filtered by kidneys (dark urine).",tip:"When you see a disease scenario, focus on the mechanism. Ask: what pathway is disrupted, what accumulates or is missing, and how does that explain each symptom?"},
-    {name:"The Two-System Crossover",desc:"The MCAT describes a problem in System A and asks about the effect on System B. The link is always a physiological connection you should know.",example:"A patient with liver cirrhosis develops peripheral edema. Why?",logic:"The liver makes albumin. Cirrhosis destroys hepatocytes. Albumin drops. Albumin maintains oncotic pressure. Low oncotic pressure means fluid leaks out (edema). Connection: liver (production) to cardiovascular (Starling forces).",tip:"Keep a mental list of crossover links: kidneys-CV through RAAS, liver-CV through albumin, lungs-kidneys through acid-base, endocrine links to everything."},
-    {name:"The Numbers Game",desc:"The MCAT gives you data (GFR, blood gas values, hormone levels) and asks you to interpret what is happening physiologically.",example:"pH 7.30, pCO2 24 mmHg, HCO3- 12 mEq/L. What is the primary disorder?",logic:"pH is low (acidosis). HCO3- is low (metabolic cause). pCO2 is also low (respiratory compensation via hyperventilation).",tip:"For blood gas: (1) pH tells you acidosis or alkalosis. (2) Check if pCO2 explains it (respiratory) or HCO3- explains it (metabolic). (3) Check if the other value is compensating."}
+    {name:"The Domino Chain",desc:"The MCAT describes a defect or drug at step 1, then asks what happens at step 5. Your job is to trace the chain link by link. Never skip steps.",example:"A patient takes an ACE inhibitor. What happens to aldosterone levels?",logic:"ACE inhibitor blocks ACE. Less angiotensin II is produced. Angiotensin II normally stimulates aldosterone release from the adrenal cortex. Less angiotensin II means less aldosterone. Answer: aldosterone decreases.",tip:"Write the chain on your scratch paper. Every arrow is a step. If the question asks about step 5, trace through steps 1 through 4 first.",workedExample:{title:"Domino Chain: ACE Inhibitor \u2192 Potassium",steps:[{label:"Step 1: The drug acts",text:"ACE inhibitor blocks angiotensin-converting enzyme in the lungs."},{ label:"Step 2: Downstream product drops",text:"Less ACE activity \u2192 angiotensin I is not converted to angiotensin II. Angiotensin II falls."},{ label:"Step 3: Gland loses its signal",text:"Angiotensin II normally stimulates the adrenal cortex to release aldosterone. Less Ang II \u2192 less aldosterone."},{ label:"Step 4: Tubular effect changes",text:"Aldosterone normally tells the collecting duct to secrete K+ in exchange for Na+. Less aldosterone \u2192 less K+ secretion."},{ label:"Step 5: Clinical consequence",text:"Potassium rises (hyperkalemia). This is a well-known side effect of ACE inhibitors. Now you can trace exactly why."}]}},
+    {name:"The Compensation Pattern",desc:"The body tries to maintain homeostasis. When one system fails, another compensates. The MCAT asks you to identify the compensation, or what happens when the compensation also fails.",example:"A patient with COPD has a chronically elevated pCO2 of 55 mmHg. Their pH is 7.37 (nearly normal). How?",logic:"The lungs cannot blow off CO2 (respiratory acidosis). The kidneys compensate by retaining bicarbonate and excreting more H+. This brings pH back toward normal.",tip:"If pH is near normal but pCO2 or HCO3- is abnormal, compensation is happening. Ask: which value moved first (primary), and which moved second to fix pH (compensation)?",workedExample:{title:"Compensation: Reading a Blood Gas Correctly",steps:[{label:"Given values",text:"pH 7.36, pCO2 58 mmHg, HCO3- 32 mEq/L"},{label:"Step 1: Is it acidosis or alkalosis?",text:"pH 7.36 = slightly acidotic (below 7.4)."},{label:"Step 2: Identify the primary cause",text:"pCO2 58 is HIGH. High CO2 \u2192 more carbonic acid \u2192 acidosis. This is respiratory in origin (lungs retaining CO2)."},{label:"Step 3: Identify the compensation",text:"HCO3- 32 is HIGH. Kidneys retained bicarbonate to buffer the excess acid. This is metabolic compensation."},{label:"Step 4: Name the disorder",text:"Primary: respiratory acidosis. Compensation: metabolic (renal) compensation. Diagnosis: chronic compensated respiratory acidosis (classic COPD)."}]}},
+    {name:"The Upstream / Downstream Pattern",desc:"The MCAT places a block somewhere in a pathway and asks what accumulates upstream and what is missing downstream.",example:"A patient has a deficiency in 21-hydroxylase (used to make cortisol). What accumulates?",logic:"If the enzyme is blocked, precursors upstream accumulate and products downstream are deficient. With 21-hydroxylase deficiency, cortisol drops (downstream), ACTH rises (no negative feedback), and precursors are shunted into androgen synthesis (upstream overflow).",tip:"Draw the pathway. Mark the block with an X. Everything above the X builds up. Everything below the X drops. Then look for side pathways.",workedExample:{title:"Upstream/Downstream: 21-Hydroxylase Deficiency",steps:[{label:"The normal pathway",text:"Cholesterol \u2192 progesterone \u2192 [21-hydroxylase] \u2192 cortisol \u2192 feeds back to suppress ACTH"},{label:"Where the block is",text:"21-hydroxylase is deficient. Mark an X there."},{label:"What drops (downstream)",text:"Cortisol cannot be made. Cortisol is LOW. No negative feedback on ACTH."},{label:"What rises (upstream + feedback)",text:"ACTH rises (no feedback brake). Precursors before the block accumulate."},{label:"The overflow side pathway",text:"Accumulated precursors are shunted into androgen synthesis (a separate branch). Androgens are ELEVATED. This causes virilization."}]}},
+    {name:"The Feedback Loop Break",desc:"Normal physiology relies on negative feedback loops. The MCAT loves to break a loop and ask what happens.",example:"Surgical removal of the thyroid. What happens to TSH?",logic:"Normally, T3/T4 inhibit TSH release. Remove the thyroid: no T3/T4. No negative feedback. TSH rises because nothing tells it to stop.",tip:"For any hormone question, draw the loop: hypothalamus signals pituitary, pituitary signals gland, gland's hormone feeds back to inhibit. Then break where the question tells you.",workedExample:{title:"Feedback Loop Break: Thyroidectomy",steps:[{label:"Normal loop (intact)",text:"Hypothalamus \u2192 TRH \u2192 Pituitary \u2192 TSH \u2192 Thyroid \u2192 T3/T4 \u2192 feeds back to suppress TRH and TSH"},{label:"Where the break occurs",text:"Thyroid is surgically removed. No thyroid gland = no T3/T4."},{label:"Loss of negative feedback",text:"T3/T4 normally suppress TSH. With no T3/T4, there is no brake on TSH."},{label:"Result",text:"TSH climbs very high. The pituitary keeps signaling louder and louder into silence."},{label:"Clinical use",text:"TSH is the most sensitive measure of thyroid function. Very high TSH = hypothyroidism. Very low TSH = hyperthyroidism. Now you understand why."}]}},
+    {name:"The Disease Model Scenario",desc:"The MCAT gives you a clinical vignette. You are not expected to diagnose the disease, but to understand the mechanism that produces the symptoms.",example:"A patient has fatigue, dark urine, and jaundice after eating fava beans.",logic:"This is G6PD deficiency. G6PD is needed for the pentose phosphate pathway, which produces NADPH, which regenerates glutathione, which neutralizes ROS. Without this protection, RBCs hemolyze. Hemoglobin is broken down to bilirubin (jaundice) and filtered by kidneys (dark urine).",tip:"When you see a disease scenario, focus on the mechanism. Ask: what pathway is disrupted, what accumulates or is missing, and how does that explain each symptom?",workedExample:{title:"Disease Model: G6PD Deficiency After Fava Bean Exposure",steps:[{label:"The trigger",text:"Fava beans contain oxidative compounds. In a normal person, these are neutralized."},{label:"The missing enzyme",text:"G6PD is needed to make NADPH via the pentose phosphate pathway."},{label:"What NADPH does",text:"NADPH regenerates glutathione, the main antioxidant in red blood cells."},{label:"Without glutathione",text:"Oxidative stress goes unchecked. RBC membranes are damaged and the cell ruptures (hemolysis)."},{label:"The symptoms, explained",text:"Hemoglobin released \u2192 converted to bilirubin \u2192 jaundice. Bilirubin filtered by kidneys \u2192 dark urine. RBC loss \u2192 fatigue/anemia."}]}},
+    {name:"The Two-System Crossover",desc:"The MCAT describes a problem in System A and asks about the effect on System B. The link is always a physiological connection you should know.",example:"A patient with liver cirrhosis develops peripheral edema. Why?",logic:"The liver makes albumin. Cirrhosis destroys hepatocytes. Albumin drops. Albumin maintains oncotic pressure. Low oncotic pressure means fluid leaks out (edema). Connection: liver (production) to cardiovascular (Starling forces).",tip:"Keep a mental list of crossover links: kidneys-CV through RAAS, liver-CV through albumin, lungs-kidneys through acid-base, endocrine links to everything.",workedExample:{title:"Two-System Crossover: Liver Cirrhosis \u2192 Edema",steps:[{label:"System A: Liver failure",text:"Cirrhosis replaces hepatocytes with scar tissue. The liver loses synthetic function."},{label:"The connecting molecule",text:"Albumin is made by the liver. Albumin production drops."},{label:"Why albumin matters to System B (CV)",text:"Albumin is the main protein in plasma. It creates oncotic pressure, pulling fluid back into capillaries."},{label:"Loss of oncotic pressure",text:"With less albumin, the inward pull is gone. At the venular end of capillaries, fluid no longer returns to the bloodstream."},{label:"Clinical result",text:"Fluid accumulates in the interstitium (edema) and in the peritoneal cavity (ascites). One organ's failure causes another system's fluid imbalance."}]}},
+    {name:"The Numbers Game",desc:"The MCAT gives you data (GFR, blood gas values, hormone levels) and asks you to interpret what is happening physiologically.",example:"pH 7.30, pCO2 24 mmHg, HCO3- 12 mEq/L. What is the primary disorder?",logic:"pH is low (acidosis). HCO3- is low (metabolic cause). pCO2 is also low (respiratory compensation via hyperventilation).",tip:"For blood gas: (1) pH tells you acidosis or alkalosis. (2) Check if pCO2 explains it (respiratory) or HCO3- explains it (metabolic). (3) Check if the other value is compensating.",workedExample:{title:"Numbers Game: Step-by-Step Blood Gas Interpretation",steps:[{label:"Given",text:"pH 7.30 | pCO2 24 mmHg | HCO3- 12 mEq/L"},{label:"Step 1: pH direction",text:"7.30 < 7.40 = ACIDOSIS. You are looking for what caused the acid."},{label:"Step 2: Which variable explains it?",text:"HCO3- 12 is very LOW. Low bicarbonate = loss of base = metabolic acidosis. This is the primary disorder."},{label:"Step 3: Is the other variable compensating?",text:"pCO2 24 is LOW. Normal is ~40. Lungs are hyperventilating to blow off CO2, reducing carbonic acid. This compensates for the metabolic acidosis."},{label:"Step 4: Name it",text:"Primary: metabolic acidosis. Compensation: respiratory (hyperventilation). Classic DKA pattern."}]}}
   ]
 },
 cardio: {
@@ -188,22 +245,25 @@ cardio: {
   content:[
     {heading:"The Heart as a Pump",
      paragraphs:["The heart is two pumps in series. The right side pumps deoxygenated blood to the lungs (pulmonary circuit), and the left side pumps oxygenated blood to the body (systemic circuit). The left ventricle has a thicker wall because it pumps against higher systemic resistance.","Cardiac output (CO) equals heart rate (HR) times stroke volume (SV). This is the single most important equation in cardiovascular physiology. Stroke volume depends on three things: preload (how much blood fills the ventricle), contractility (how forcefully the heart squeezes), and afterload (the resistance the heart pumps against)."],
-     chain:"Venous return (preload) --> Ventricle fills --> Contraction (contractility) --> Ejects against afterload --> CO = HR x SV",
+     chain:"Venous return (preload) \u2192 Ventricle fills \u2192 Contraction (contractility) \u2192 Ejects against afterload \u2192 CO = HR \u00d7 SV",
+     workedExample:{title:"Frank-Starling in a Marathon Runner",steps:[{label:"Setup",text:"A runner's skeletal muscles need more oxygen during a race. How does the heart respond?"},{label:"Increased venous return",text:"Working muscles pump more blood back to the right heart. Preload increases."},{label:"Frank-Starling mechanism",text:"More stretch on the ventricular wall \u2192 cross-bridge overlap improves \u2192 more forceful contraction. Stroke volume rises."},{label:"Simultaneous HR increase",text:"Sympathetic activation also increases heart rate."},{label:"Net result",text:"CO = HR \u00d7 SV. Both values increase. CO can go from 5 L/min at rest to 20+ L/min during intense exercise."}]},
      quickCheck:{question:"If venous return increases, what happens to stroke volume?",options:["Decreases","Increases (Frank-Starling mechanism)","Stays the same","Heart rate compensates instead"],correct:1,explain:"This is the Frank-Starling mechanism. More venous return stretches the ventricle more during filling (increased preload). The more the cardiac muscle is stretched, the more forcefully it contracts, increasing stroke volume."}
     },
     {heading:"Blood Pressure Regulation",
      paragraphs:["Blood pressure (BP) equals cardiac output (CO) times total peripheral resistance (TPR). The body can raise BP by pumping more blood or by constricting blood vessels. The sympathetic nervous system does both: it increases HR and contractility (beta-1 receptors) while constricting arterioles (alpha-1 receptors).","The baroreceptor reflex is the short-term regulator. Baroreceptors in the carotid sinus and aortic arch detect stretch. When BP drops, baroreceptor firing decreases, releasing the sympathetic system: increased HR, contractility, and vasoconstriction. When BP rises, baroreceptors fire more, increasing parasympathetic tone and decreasing sympathetic output."],
      callout:{type:"mcat",text:"The MCAT loves the baroreceptor reflex. Questions often describe a scenario (standing up, hemorrhage) and ask you to predict the reflex. Baroreceptors detect stretch, not pressure directly. Carotid sinus sends signals via CN IX (glossopharyngeal), aortic arch via CN X (vagus)."},
+     workedExample:{title:"Orthostatic Hypotension: Baroreceptor Reflex Step by Step",steps:[{label:"The event",text:"A patient stands up from a chair. Gravity pulls blood into the lower extremities."},{label:"Immediate effect",text:"Venous return drops. Less preload \u2192 less stroke volume \u2192 less cardiac output \u2192 BP falls transiently."},{label:"Baroreceptors detect less stretch",text:"Carotid and aortic baroreceptors fire less frequently. Signal goes to medulla: 'BP is low.'"},{label:"Sympathetic output rises",text:"Medulla increases sympathetic tone. Heart rate rises (beta-1). Arterioles constrict (alpha-1). Veins constrict (increased venous return)."},{label:"Normal outcome",text:"BP restores within seconds. A person with autonomic neuropathy (e.g., diabetic) cannot do this, and faints."}]},
      quickCheck:{question:"A patient stands up suddenly and feels dizzy. The baroreceptor reflex responds. What happens to heart rate?",options:["Decreases","Increases","No change","First decreases then increases"],correct:1,explain:"Standing causes blood pooling in legs, reducing venous return and dropping BP. Baroreceptors detect less stretch, decrease firing, and the medulla increases sympathetic output. Heart rate increases to restore cardiac output."}
     },
     {heading:"Starling Forces and Capillary Exchange",
      paragraphs:["Fluid movement across capillary walls is governed by Starling forces: hydrostatic pressure (pushes fluid out) and oncotic/colloid osmotic pressure (pulls fluid in, mainly from albumin). At the arteriolar end, hydrostatic exceeds oncotic, so fluid filters out. At the venular end, oncotic dominates, so fluid is reabsorbed.","Anything that raises capillary hydrostatic pressure (heart failure, venous obstruction) or lowers oncotic pressure (liver failure reducing albumin, nephrotic syndrome losing albumin) causes edema."],
      callout:{type:"connection",text:"This is a major crossover point. The cardiovascular system (capillary pressures), liver (albumin production), kidneys (albumin retention/loss), and lymphatic system (drainage) all contribute to fluid balance. Edema is never just one system's problem."},
+     workedExample:{title:"Heart Failure \u2192 Pulmonary Edema: Tracing Starling Forces",steps:[{label:"Left heart fails",text:"Left ventricle cannot pump blood forward effectively. Blood backs up."},{label:"Pressure rises upstream",text:"Left atrial pressure rises \u2192 pulmonary venous pressure rises \u2192 pulmonary capillary hydrostatic pressure rises."},{label:"Starling forces tip",text:"Normal: hydrostatic and oncotic balance. Now: hydrostatic is too high at both arteriolar AND venular ends."},{label:"Fluid floods alveoli",text:"Fluid moves into the interstitium and then into alveolar spaces. Gas exchange is impaired."},{label:"The symptom",text:"Shortness of breath (dyspnea), especially when lying flat (orthopnea). Crackles heard in lungs on exam."}]},
      quickCheck:{question:"A patient with nephrotic syndrome loses albumin in urine. What happens to interstitial fluid?",options:["Decreases","Increases because plasma oncotic pressure drops","No change","Decreases because blood volume drops"],correct:1,explain:"Albumin loss drops plasma oncotic pressure. With less pull keeping fluid in capillaries, more leaks into the interstitial space (edema). This connects renal (protein loss) to cardiovascular (Starling forces)."}
     }
   ],
   questions:[
-    {stem:"During exercise, CO increases from 5 L/min to 15 L/min. HR goes from 70 to 140 bpm. What must be true about stroke volume?",options:["SV decreased","SV stayed approximately the same","SV approximately doubled","SV tripled"],correct:1,explain:"CO = HR x SV. At rest: 5000/70 = ~71 mL. During exercise: 15000/140 = ~107 mL. SV increased ~50%, not doubled. HR doubled, but total CO tripled because both increased.",tags:["cardio"],logic:"Quantitative reasoning. Plug in numbers. Do not assume SV and HR change proportionally."},
+    {stem:"During exercise, CO increases from 5 L/min to 15 L/min. HR goes from 70 to 140 bpm. What must be true about stroke volume?",options:["SV decreased","SV stayed approximately the same","SV approximately doubled","SV tripled"],correct:1,explain:"CO = HR \u00d7 SV. At rest: 5000/70 = ~71 mL. During exercise: 15000/140 = ~107 mL. SV increased ~50%, not doubled. HR doubled, but total CO tripled because both increased.",tags:["cardio"],logic:"Quantitative reasoning. Plug in numbers. Do not assume SV and HR change proportionally."},
     {stem:"A patient with severe dehydration has reduced blood volume. Which compensatory response is expected?",options:["Decreased HR, vasodilation","Increased HR, vasoconstriction","Decreased HR, vasoconstriction","Increased HR, vasodilation"],correct:1,explain:"Low blood volume lowers venous return, SV, and BP. Baroreceptors detect the drop and trigger sympathetic activation: increased HR (beta-1) and vasoconstriction (alpha-1).",tags:["cardio","renal"],logic:"Domino chain: dehydration lowers volume, lowers SV, lowers BP. Compensation: baroreceptors trigger sympathetic response."},
     {passage:"A researcher studies two groups. Group A has normal albumin (4.0 g/dL). Group B has reduced albumin (1.5 g/dL) due to liver disease.",stem:"Compared to Group A, Group B most likely shows:",options:["Increased fluid reabsorption at venular end","Decreased net filtration at arteriolar end","Increased interstitial fluid accumulation","Decreased lymphatic flow"],correct:2,explain:"Low albumin = low oncotic pressure. Less pull keeping fluid in capillaries. More fluid leaks into interstitial space (edema). Lymphatic flow would increase trying to drain excess.",tags:["cardio","digestive"],logic:"Two-system crossover: liver (albumin) affects cardiovascular (Starling forces)."},
     {passage:"A patient with CKD has GFR 20 mL/min. Labs show elevated creatinine, BUN, and potassium. BP is 165/100.",stem:"The hypertension is most directly explained by:",options:["Increased contractility from high potassium","Reduced blood volume from impaired water reabsorption","Sodium and water retention increasing blood volume","Decreased baroreceptor sensitivity"],correct:2,explain:"Failed kidneys cannot excrete enough Na+ and water. Retained fluid expands blood volume, increasing preload and CO, raising BP. Damaged kidneys may also overproduce renin (RAAS activation).",tags:["cardio","renal"],logic:"Two-system crossover: renal failure causes fluid retention, which increases cardiovascular load."},
@@ -215,17 +275,20 @@ renal: {
   content:[
     {heading:"The Nephron: Filtration, Reabsorption, Secretion",
      paragraphs:["Each kidney contains about one million nephrons. Blood enters via the afferent arteriole, is filtered at the glomerulus, and the filtrate travels through the proximal tubule, loop of Henle, distal tubule, and collecting duct. At each segment, different substances are reabsorbed or secreted.","GFR is ~120 mL/min. It depends on net filtration pressure: glomerular hydrostatic pressure pushing fluid out, minus oncotic pressure pulling back in, minus Bowman's capsule pressure. The kidneys filter ~180 liters per day but reabsorb ~99%."],
-     chain:"Afferent arteriole --> Glomerulus (filter) --> Proximal tubule (~65% Na+, glucose, amino acids, HCO3-) --> Loop of Henle (concentrating gradient) --> Distal tubule (aldosterone, PTH) --> Collecting duct (ADH, water) --> Urine",
+     chain:"Afferent arteriole \u2192 Glomerulus (filter) \u2192 Proximal tubule (~65% Na+, glucose, amino acids, HCO3-) \u2192 Loop of Henle (concentrating gradient) \u2192 Distal tubule (aldosterone, PTH) \u2192 Collecting duct (ADH, water) \u2192 Urine",
+     workedExample:{title:"Why Diabetics Get Glucosuria and Polyuria",steps:[{label:"Normal glucose handling",text:"Blood glucose 90 mg/dL. All glucose is filtered at the glomerulus and 100% reabsorbed by SGLT2 transporters in the proximal tubule. None in urine."},{label:"Transport maximum (Tm)",text:"SGLT2 transporters have a maximum reabsorption rate (~180 mg/dL). Above this, they are saturated."},{label:"Diabetes: glucose 380 mg/dL",text:"Glucose floods into the filtrate far exceeding the Tm. Excess glucose cannot be reabsorbed."},{label:"Glucosuria",text:"Glucose spills into urine. The glucose molecules in the tubule are osmotically active."},{label:"Osmotic diuresis",text:"Glucose holds water in the tubule by osmosis, dragging it into urine. Large volumes of dilute urine are produced. Patient becomes dehydrated and thirsty (polydipsia)."}]},
      quickCheck:{question:"A diabetic patient has blood glucose of 400 mg/dL. What happens in the proximal tubule?",options:["All glucose is reabsorbed normally","Glucose appears in urine because transporters are saturated (Tm exceeded)","Proximal tubule makes more transporters","GFR decreases to prevent loss"],correct:1,explain:"There is a transport maximum (Tm) for glucose. Above ~180 mg/dL, SGLT2 transporters saturate. Excess glucose spills into urine (glucosuria). The glucose also pulls water osmotically (osmotic diuresis), causing polyuria and dehydration."}
     },
     {heading:"RAAS: The Kidney-Blood Pressure Connection",
      paragraphs:["When renal perfusion drops, juxtaglomerular cells release renin. Renin cleaves angiotensinogen (from liver) into angiotensin I. ACE (in lung capillaries) converts it to angiotensin II. Angiotensin II is a powerful vasoconstrictor and stimulates aldosterone from the adrenal cortex.","Aldosterone acts on the distal tubule and collecting duct: increases Na+ reabsorption (and K+ secretion). Water follows Na+, expanding blood volume. Angiotensin II also stimulates ADH from the posterior pituitary (inserts aquaporin-2 channels in the collecting duct)."],
      callout:{type:"mcat",text:"RAAS questions are everywhere. Know every step and what happens when you block each one. ACE inhibitors: less Ang II, less aldosterone, BP drops, K+ rises. ARBs block the Ang II receptor but Ang II levels rise (still being made). Renin inhibitors block the first step."},
+     workedExample:{title:"RAAS Chain: From Hemorrhage to Volume Recovery",steps:[{label:"Trigger: blood loss",text:"Hemorrhage drops blood pressure. Renal perfusion drops."},{label:"Renin released",text:"JG cells in the afferent arteriole sense low pressure \u2192 release renin."},{label:"Angiotensin I formed",text:"Renin cleaves angiotensinogen (liver) \u2192 angiotensin I."},{label:"Angiotensin II formed",text:"ACE in lung capillaries converts Ang I \u2192 Ang II. Ang II: (a) vasoconstricts \u2192 raises BP, (b) stimulates aldosterone."},{label:"Aldosterone acts",text:"Collecting duct reabsorbs more Na+. Water follows. Blood volume expands. BP rises back toward normal."}]},
      quickCheck:{question:"A patient on an ACE inhibitor has elevated potassium. Why?",options:["ACE inhibitors block K+ channels","Less Ang II means less aldosterone, which normally promotes K+ secretion","ACE inhibitors increase GFR","Drug causes cellular K+ release"],correct:1,explain:"ACE inhibitor reduces Ang II, which reduces aldosterone. Aldosterone normally promotes K+ secretion in the collecting duct. Without it, K+ is retained (hyperkalemia). Classic domino chain."}
     },
     {heading:"Acid-Base Balance",
      paragraphs:["The kidneys regulate pH by adjusting HCO3- reabsorption and H+ secretion. The proximal tubule reabsorbs ~80-90% of filtered bicarbonate via carbonic anhydrase. Intercalated cells of the collecting duct secrete H+ (type A, for acidosis) or HCO3- (type B, for alkalosis).","The kidneys also generate new bicarbonate from glutamine metabolism. During chronic acidosis, glutaminase is upregulated, producing more ammonia (urinary buffer) and new bicarbonate. This takes 3-5 days for full effect."],
      callout:{type:"connection",text:"Acid-base connects renal, pulmonary, and metabolic systems. In DKA: lack of insulin forces fat metabolism, producing ketoacids. Lungs compensate immediately (Kussmaul breathing). Kidneys compensate over days (retaining HCO3-, excreting H+). Blood gas in early DKA: low pH, low HCO3-, low pCO2."},
+     workedExample:{title:"DKA Acid-Base: What Each System Does",steps:[{label:"The cause",text:"No insulin. Fat is broken down. Acetyl-CoA accumulates into ketone bodies (acetoacetate, beta-hydroxybutyrate). These are acids."},{label:"pH drops",text:"Ketoacids flood the blood. pH 7.18. HCO3- consumed buffering the acid \u2192 HCO3- 8 mEq/L."},{label:"Lungs respond immediately",text:"Chemoreceptors sense low pH. Drive to breathe increases. Deep, rapid breathing (Kussmaul). Blows off CO2 \u2192 pCO2 drops to ~18 mmHg."},{label:"Kidneys respond over days",text:"Increase H+ secretion, HCO3- reabsorption, ammonia production. Slow but powerful if kidneys are intact."},{label:"Reading the gas",text:"pH low + HCO3- low (primary metabolic acidosis) + pCO2 low (respiratory compensation). Three values, one picture."}]},
      quickCheck:{question:"A patient with chronic metabolic acidosis (pH 7.30) has been compensating for 5 days. Expected renal response?",options:["Decreased HCO3- reabsorption","Increased HCO3- reabsorption and ammonium excretion","Decreased H+ secretion","Increased K+ reabsorption"],correct:1,explain:"Chronic acidosis triggers maximum renal compensation: increased H+ secretion, increased HCO3- reabsorption, and increased ammonia production from glutamine to buffer urinary H+."}
     }
   ],
@@ -242,17 +305,20 @@ pulmonary: {
   content:[
     {heading:"Gas Exchange Fundamentals",
      paragraphs:["The lungs' primary job is gas exchange at the alveolar-capillary interface (~0.5 micrometers thick). Gas moves by simple diffusion driven by partial pressure gradients. O2 moves from alveoli (PO2 ~100 mmHg) into capillary blood (PO2 ~40 mmHg). CO2 moves from blood (PCO2 ~46) into alveoli (PCO2 ~40).","Fick's law: diffusion rate is proportional to surface area, pressure difference, and gas solubility, and inversely proportional to membrane thickness. Emphysema reduces surface area. Fibrosis increases thickness. Edema increases thickness."],
-     chain:"Inspired air --> Alveoli (PO2 ~100) --> Diffusion across membrane --> Pulmonary capillary blood (PO2 rises 40 to ~100) --> Pulmonary vein --> Left heart --> Systemic circulation",
+     chain:"Inspired air \u2192 Alveoli (PO2 ~100) \u2192 Diffusion across membrane \u2192 Pulmonary capillary blood (PO2 rises 40 \u2192 ~100) \u2192 Pulmonary vein \u2192 Left heart \u2192 Systemic circulation",
+     workedExample:{title:"Pulmonary Fibrosis: Why Exercise Reveals the Defect",steps:[{label:"Normal transit time",text:"A red blood cell spends ~0.75 seconds in the pulmonary capillary. It takes only ~0.25 seconds to fully saturate with oxygen. There is a 0.5 sec safety margin."},{label:"Fibrosis thickens the membrane",text:"More tissue to cross = slower diffusion rate. Equilibration now takes ~0.5\u20130.6 seconds instead of 0.25. Still within the 0.75 sec window at rest."},{label:"At rest: normal O2 saturation",text:"The blood just barely equilibrates in time. Patient looks fine resting."},{label:"During exercise: cardiac output rises",text:"Heart pumps faster. Blood rushes through the pulmonary capillary in ~0.35 seconds instead of 0.75."},{label:"Now diffusion cannot keep up",text:"0.5 sec needed, only 0.35 sec available. Blood leaves the capillary incompletely oxygenated. Patient becomes hypoxic only with exertion."}]},
      quickCheck:{question:"A patient with pulmonary fibrosis has normal O2 at rest but becomes hypoxic during exercise. Why?",options:["Exercise increases CO2 that displaces O2","At rest, blood has enough capillary transit time despite the thicker membrane; during exercise, blood moves faster and cannot equilibrate","Exercise causes bronchospasm","Thickened membrane only affects CO2"],correct:1,explain:"Normally blood equilibrates in ~0.25 sec but spends ~0.75 sec in the pulmonary capillary. Thickened membrane slows diffusion. At rest, extra time compensates. During exercise, cardiac output rises, transit time drops, and diffusion cannot keep up. This is diffusion limitation."}
     },
     {heading:"Ventilation-Perfusion Matching",
      paragraphs:["Effective gas exchange requires matched ventilation (V) and perfusion (Q). V/Q ~1.0 is ideal. If ventilated but not perfused (V/Q approaches infinity), that is dead space. If perfused but not ventilated (V/Q approaches 0), that is shunt.","The body matches V/Q through hypoxic pulmonary vasoconstriction (HPV): if an alveolar region has low O2, local pulmonary arterioles constrict, diverting blood to better ventilated areas. This is opposite to systemic circulation where low O2 causes vasodilation."],
      callout:{type:"warning",text:"Do not confuse pulmonary and systemic responses to hypoxia. Systemic arterioles DILATE in low O2 (deliver more blood to hypoxic tissue). Pulmonary arterioles CONSTRICT in low O2 (divert blood away from poorly ventilated alveoli). The MCAT tests this distinction frequently."},
+     workedExample:{title:"V/Q Mismatch: Pulmonary Embolism vs. Pneumonia",steps:[{label:"Pulmonary embolism (PE)",text:"A blood clot blocks a pulmonary artery. The alveoli are ventilated (air can move in and out) but blood cannot reach them. V/Q \u2192 infinity. This is dead space. No gas exchange occurs in that region."},{label:"Pneumonia or mucus plug",text:"Airway is blocked. Alveoli cannot be ventilated. Blood still flows through. V/Q \u2192 0. This is shunt. Blood passes through without picking up O2."},{label:"How the body tries to correct each",text:"PE: no good fix. Dead space wastes ventilation. Pneumonia/mucus: HPV constricts the arteriole in that region, reducing blood flow to unventilated alveoli."},{label:"Why HPV cannot fix a PE",text:"The problem in PE is perfusion loss, not ventilation loss. HPV acts on the perfusion side. Nothing to constrict away from."},{label:"Why O2 fixes shunt poorly",text:"Giving 100% O2 does not fix shunt (blood bypasses ventilated alveoli). It helps dead space (can ventilate with more O2). This distinction is tested."}]},
      quickCheck:{question:"In response to low alveolar oxygen, pulmonary arterioles:",options:["Dilate to increase blood flow","Constrict to redirect blood to better-ventilated areas","Do not change","Dilate then constrict"],correct:1,explain:"Hypoxic pulmonary vasoconstriction (HPV). If an area is not getting air, do not send blood there. Opposite to systemic response."}
     },
     {heading:"O2 and CO2 Transport",
      paragraphs:["Most O2 (~98.5%) is carried bound to hemoglobin (Hb). Binding is cooperative (sigmoidal curve). Right shift (lower affinity, easier O2 release): increased temperature, CO2, H+ (low pH), and 2,3-BPG. These all increase in active tissues.","CO2 transport: dissolved (~7%), carbaminohemoglobin (~23%), bicarbonate (~70%). In RBCs, carbonic anhydrase converts CO2 + H2O to H2CO3, which dissociates into H+ and HCO3-. HCO3- is exchanged for Cl- (chloride shift). At lungs, the process reverses."],
-     callout:{type:"connection",text:"CO2 transport connects pulmonary and renal through acid-base. Henderson-Hasselbalch: pH = 6.1 + log([HCO3-] / (0.03 x pCO2)). The numerator is the kidney's domain. The denominator is the lung's domain."},
+     callout:{type:"connection",text:"CO2 transport connects pulmonary and renal through acid-base. Henderson-Hasselbalch: pH = 6.1 + log([HCO3-] / (0.03 \u00d7 pCO2)). The numerator is the kidney's domain. The denominator is the lung's domain."},
+     workedExample:{title:"The Bohr Effect in Working Muscle",steps:[{label:"Conditions in active muscle",text:"Exercising muscle produces CO2, lactic acid (H+), and heat. All three accumulate locally."},{label:"Effect on hemoglobin affinity",text:"CO2, H+, and temperature all shift the oxygen-hemoglobin dissociation curve to the RIGHT."},{label:"What right shift means",text:"Lower O2 affinity. Hemoglobin releases oxygen more readily at any given partial pressure."},{label:"Practical result",text:"Working muscle gets more O2 delivered per unit of blood flow. The system is tuned by the metabolic demand."},{label:"At the lung (opposite conditions)",text:"Low CO2, low H+, lower temperature \u2192 LEFT shift \u2192 higher affinity \u2192 Hb picks up O2 avidly. Perfect design."}]},
      quickCheck:{question:"A mountain climber hyperventilates at high altitude. What happens to blood pH?",options:["Decreases (acidic)","Increases (alkaline)","No change","First increases then decreases"],correct:1,explain:"Hyperventilation blows off CO2. Less CO2 means less carbonic acid, fewer H+ ions. pH rises (respiratory alkalosis). Kidneys compensate over days by excreting more HCO3-."}
     }
   ],
@@ -268,17 +334,20 @@ digestive: {
   content:[
     {heading:"Digestion and Absorption Overview",
      paragraphs:["The GI tract breaks food down mechanically and chemically into absorbable units. Most absorption occurs in the small intestine (jejunum), which has enormous surface area from circular folds, villi, and microvilli.","Each macronutrient has its own pathway. Starch: salivary amylase (mouth), pancreatic amylase (duodenum). Protein: pepsin (stomach, activated by HCl), trypsin/chymotrypsin (small intestine, from pancreas). Fat: bile salts (liver/gallbladder) emulsify, then pancreatic lipase digests."],
-     chain:"Mouth (amylase, mechanical) --> Stomach (HCl + pepsin) --> Duodenum (pancreatic enzymes + bile) --> Jejunum (absorption) --> Ileum (B12, bile salt reabsorption) --> Colon (water, electrolytes, bacterial fermentation)",
+     chain:"Mouth (amylase, mechanical) \u2192 Stomach (HCl + pepsin) \u2192 Duodenum (pancreatic enzymes + bile) \u2192 Jejunum (absorption) \u2192 Ileum (B12, bile salt reabsorption) \u2192 Colon (water, electrolytes, bacterial fermentation)",
+     workedExample:{title:"Why Fat Malabsorption Causes Fat-Soluble Vitamin Deficiency",steps:[{label:"Normal fat digestion",text:"Bile emulsifies fat into tiny droplets. Pancreatic lipase cleaves triglycerides into fatty acids and monoglycerides. These form micelles with bile salts."},{label:"Micelles are the key",text:"Fat-soluble vitamins (A, D, E, K) dissolve into micelles. They cannot be absorbed independently \u2014 they hitchhike on fat absorption."},{label:"Chronic pancreatitis blocks lipase",text:"Without lipase, triglycerides are not broken down. Micelles cannot form properly."},{label:"Everything fat-soluble is lost",text:"Vitamin A \u2192 night blindness. Vitamin D \u2192 hypocalcemia, bone disease. Vitamin K \u2192 bleeding (clotting factors not made). Vitamin E \u2192 neurologic problems."},{label:"The stool clue",text:"Fatty, foul-smelling, floating stool (steatorrhea). The fat that was not absorbed ends up in stool."}]},
      quickCheck:{question:"After gallbladder removal, which macronutrient's digestion is most affected?",options:["Protein","Carbohydrate","Fat","Nucleic acids"],correct:2,explain:"Gallbladder stores/concentrates bile. Without it, bile still drips from liver but is not released in concentrated boluses during fatty meals. Fat emulsification is impaired, reducing lipase access."}
     },
     {heading:"The Liver: A Metabolic Hub",
      paragraphs:["The liver receives nutrient-rich blood from the GI tract via the portal vein. Key functions: bile production, albumin synthesis (oncotic pressure), clotting factor production, glucose regulation (glycogenesis, gluconeogenesis, glycogenolysis), detoxification (P450), urea cycle (converts toxic ammonia to urea), and cholesterol metabolism.","When the liver fails (cirrhosis): low albumin causes edema/ascites. Low clotting factors cause bleeding. Impaired detoxification lets ammonia accumulate (hepatic encephalopathy). Portal hypertension causes varices and splenomegaly."],
      callout:{type:"connection",text:"The liver connects to virtually every system. CV: albumin maintains oncotic pressure. Renal: urea cycle produces urea for kidney excretion. Endocrine: liver metabolizes/clears hormones. Immune: complement proteins. Hematologic: clotting factors. The MCAT can start with liver disease and ask about any of these."},
+     workedExample:{title:"Cirrhosis: One Disease, Multiple System Failures",steps:[{label:"The underlying problem",text:"Chronic liver damage (alcohol, hepatitis) replaces functional hepatocytes with fibrous scar tissue."},{label:"System 1: Cardiovascular \u2014 albumin drops",text:"Fewer hepatocytes \u2192 less albumin made \u2192 oncotic pressure drops \u2192 fluid leaks into peritoneum (ascites) and tissues (edema)."},{label:"System 2: Cardiovascular \u2014 portal hypertension",text:"Scar tissue obstructs portal blood flow \u2192 pressure backs up \u2192 esophageal varices, splenomegaly."},{label:"System 3: Hematology \u2014 clotting fails",text:"Clotting factors (I, II, V, VII, IX, X) made in liver \u2192 scarred liver makes fewer \u2192 patient bleeds easily."},{label:"System 4: Nervous \u2014 hepatic encephalopathy",text:"Liver cannot convert ammonia \u2192 urea. Ammonia crosses blood-brain barrier. Confusion, asterixis, coma."}]},
      quickCheck:{question:"A cirrhosis patient has ascites. Which combination explains it?",options:["High albumin, low portal pressure","Low albumin, high portal pressure","High albumin, high portal pressure","Low albumin, low portal pressure"],correct:1,explain:"Two forces combine: (1) low albumin reduces oncotic pressure (fluid leaks out), (2) scarred liver blocks portal flow raising hydrostatic pressure (fluid pushed out). Both forces push fluid into the peritoneal cavity."}
     },
     {heading:"GI Hormones",
      paragraphs:["The GI tract is the largest endocrine organ. Key hormones: Gastrin (G cells, stomach) stimulates HCl secretion. CCK (I cells, duodenum, response to fat/protein) stimulates pancreatic enzymes and gallbladder contraction. Secretin (S cells, duodenum, response to acid) stimulates pancreatic bicarbonate.","GIP (glucose-dependent insulinotropic peptide) from duodenum stimulates insulin release. This is why oral glucose triggers more insulin than IV glucose (incretin effect)."],
      callout:{type:"mcat",text:"The MCAT may describe gastric bypass surgery and ask why insulin responses are exaggerated (food reaches small intestine faster, GIP amplified). Or a gastrinoma (Zollinger-Ellison): excess gastrin means too much HCl, duodenal ulcers, diarrhea from acid overwhelming buffering capacity."},
+     workedExample:{title:"Zollinger-Ellison Syndrome: Tracing Excess Gastrin",steps:[{label:"The problem",text:"A gastrin-secreting tumor (gastrinoma) in the pancreas produces gastrin continuously and in large amounts."},{label:"Gastrin's target",text:"Parietal cells in the stomach. Gastrin binds CCK-B receptors \u2192 stimulates HCl secretion."},{label:"Massive acid output",text:"Stomach produces far more HCl than normal. Normally, acid is neutralized in the duodenum by pancreatic bicarbonate."},{label:"Bicarbonate overwhelmed",text:"Too much acid enters the duodenum. Secretin is released, calling for more bicarbonate, but cannot keep up."},{label:"Consequences",text:"Duodenal and jejunal ulcers (acid burns the lining). Diarrhea (high acid volume + inactivated lipase \u2192 fat malabsorption + large fluid load in bowel)."}]},
      quickCheck:{question:"Secretin is released when acid enters the duodenum. It stimulates:",options:["HCl from parietal cells","Bile from gallbladder","Bicarbonate from pancreas","Pepsinogen from chief cells"],correct:2,explain:"Secretin is the acid alarm hormone. Acid comes in, secretin calls for pancreatic bicarbonate to neutralize it and protect the duodenal lining."}
     }
   ],
@@ -294,17 +363,20 @@ immune: {
   content:[
     {heading:"Innate vs. Adaptive Immunity",
      paragraphs:["Innate immunity: fast (minutes-hours), non-specific, no memory. Includes barriers (skin, mucus), phagocytes (neutrophils, macrophages), NK cells, complement, inflammatory response. TLRs recognize PAMPs.","Adaptive immunity: slower (days-weeks first exposure), highly specific, generates memory. T cells (cell-mediated) and B cells (humoral/antibodies). MHC I on all nucleated cells presents intracellular antigens to CD8+ cytotoxic T cells. MHC II on APCs (macrophages, dendritic cells, B cells) presents extracellular antigens to CD4+ helper T cells."],
-     chain:"Pathogen enters --> Innate barriers --> Neutrophils first (hours) --> Macrophages follow --> Present antigen via MHC II --> CD4+ T helpers activate --> TH1: CD8+ killers + macrophages / TH2: B cells --> Plasma cells (antibodies) + Memory cells",
+     chain:"Pathogen enters \u2192 Innate barriers \u2192 Neutrophils first (hours) \u2192 Macrophages follow \u2192 Present antigen via MHC II \u2192 CD4+ T helpers activate \u2192 TH1: CD8+ killers + macrophages / TH2: B cells \u2192 Plasma cells (antibodies) + Memory cells",
+     workedExample:{title:"MHC I vs. MHC II: Which T Cell Gets Activated?",steps:[{label:"The rule",text:"MHC I presents INTRACELLULAR antigens. MHC II presents EXTRACELLULAR antigens. All nucleated cells have MHC I. Only APCs have MHC II."},{label:"Scenario A: virus infects a cell",text:"Viral proteins are made inside the cell. Fragments are displayed on MHC I. CD8+ cytotoxic T cells recognize MHC I + peptide. They kill the infected cell."},{label:"Scenario B: bacteria are engulfed by macrophage",text:"Bacteria are extracellular (taken up by phagocytosis). Fragments displayed on MHC II. CD4+ helper T cells recognize MHC II + peptide. They activate macrophages and B cells."},{label:"The MCAT shortcut",text:"If the question involves a virus or intracellular pathogen \u2192 CD8+. If it involves an extracellular antigen, APC, or antibody response \u2192 CD4+."},{label:"Exception to know",text:"Cross-presentation: some dendritic cells can present extracellular antigens on MHC I to activate CD8+ cells. Tested occasionally."}]},
      quickCheck:{question:"A virus infects a cell. Which immune cell primarily kills it?",options:["B cells","CD4+ helper T cells","CD8+ cytotoxic T cells","Neutrophils"],correct:2,explain:"Infected cells display viral peptides on MHC I. CD8+ T cells recognize MHC I-peptide complexes and kill infected cells with perforin and granzymes. MHC I is on all nucleated cells because any cell could be infected."}
     },
     {heading:"Antibodies",
      paragraphs:["B cells produce antigen-specific antibodies. With T cell help, they differentiate into plasma cells and memory B cells. Primary response: 7-10 days, mainly IgM. Secondary response: 1-3 days, mainly IgG.","Classes: IgG (most abundant, crosses placenta, opsonization). IgA (mucosal secretions, breast milk). IgM (first produced, pentamer, complement activation). IgE (allergies, parasites, binds mast cells). IgD (B cell surface, activation role)."],
      callout:{type:"mcat",text:"Context clues: mucosal infection = IgA. First exposure = IgM. Allergies/parasites = IgE. Placental transfer = IgG. Classic question: newborn protected by maternal vaccination. Answer: IgG crosses placenta."},
+     workedExample:{title:"Antibody Classes: Using Context Clues on the MCAT",steps:[{label:"The five classes, simplified",text:"IgM = first responder. IgG = most versatile. IgA = mucosa and milk. IgE = allergies. IgD = B cell activation signal."},{label:"Scenario: newborn has protection against measles even though not vaccinated",text:"Mother had measles vaccine. IgG is the only antibody that crosses the placenta. Answer: IgG. Protection lasts ~6 months while maternal IgG is catabolized."},{label:"Scenario: patient with recurrent sinus/GI infections, low IgA",text:"IgA is secreted at mucosal surfaces (saliva, gut, respiratory tract). Deficiency = frequent mucosal infections."},{label:"Scenario: anaphylaxis after bee sting",text:"Sensitization \u2192 IgE made and bound to mast cells. Re-exposure \u2192 antigen cross-links IgE \u2192 mast cell degranulation \u2192 histamine, anaphylaxis."},{label:"The reliable rule",text:"Whatever the context, match it: infection type (mucosal, systemic, first-time) to the antibody whose role fits."}]},
      quickCheck:{question:"Peanut allergy causes mast cell degranulation. Which antibody triggered it?",options:["IgG","IgA","IgM","IgE"],correct:3,explain:"Type I hypersensitivity: IgE is produced during sensitization and binds mast cell Fc receptors. On re-exposure, allergen cross-links IgE, triggering degranulation (histamine, leukotrienes, prostaglandins)."}
     },
     {heading:"Inflammation and Systemic Effects",
      paragraphs:["Inflammation: redness (blood flow), heat (blood flow + metabolism), swelling (capillary leak), pain (mediators stimulate nerve endings). At the molecular level, damaged cells release signals for chemotaxis, vasodilation, and increased permeability.","Inflammation connects to CV (histamine increases permeability = Starling forces = swelling), endocrine (fever via hypothalamus, cortisol as anti-inflammatory), and nervous system (neuroinflammation)."],
      callout:{type:"connection",text:"Chronic inflammation involves immune (persistent activation), CV (endothelial damage, atherosclerosis), endocrine (cortisol dysregulation, insulin resistance from inflammatory cytokines), and nervous (neuroinflammation) systems. Diabetes, obesity, and autoimmune diseases are used by the MCAT to test these connections."},
+     workedExample:{title:"Sepsis: Inflammation Gone Wrong",steps:[{label:"Normal inflammation",text:"Local infection \u2192 local vasodilation + increased permeability \u2192 neutrophils arrive \u2192 infection cleared. Controlled, localized."},{label:"Sepsis: the signal becomes systemic",text:"Overwhelming infection \u2192 bacteria or their products enter bloodstream \u2192 systemic inflammatory response."},{label:"Vasodilation everywhere",text:"Histamine, nitric oxide released systemically \u2192 massive vasodilation \u2192 drop in peripheral resistance \u2192 BP drops (septic shock). Unlike hypovolemic shock, the tank is not empty \u2014 the pipes are too wide."},{label:"Capillary leak everywhere",text:"Increased permeability throughout body \u2192 fluid leaks into interstitium everywhere \u2192 organs become edematous, including lungs (ARDS)."},{label:"Organ failure",text:"Brain (encephalopathy), kidneys (AKI from hypoperfusion), lungs (ARDS), liver (elevated enzymes). One immune event, many organ failures."}]},
      quickCheck:{question:"Cortisol's effect on the immune system:",options:["Activates macrophages, increases inflammation","Suppresses immune response by reducing inflammatory cytokines","Stimulates B cell antibody production","Increases T cell proliferation"],correct:1,explain:"Cortisol is immunosuppressive. It inhibits NF-kB, reduces pro-inflammatory cytokines (IL-1, IL-6, TNF-alpha), decreases T cell proliferation. This is why corticosteroids treat autoimmune diseases and why chronic stress increases infection susceptibility."}
     }
   ],
@@ -321,16 +393,19 @@ endocrine: {
     {heading:"Hormone Signaling",
      paragraphs:["Peptide/protein hormones (insulin, glucagon, ADH, GH): water-soluble, cannot cross membranes, bind surface receptors (GPCRs, RTKs), fast effects (seconds-minutes) via second messengers (cAMP, IP3/DAG).","Steroid hormones (cortisol, aldosterone, estrogen, testosterone, vitamin D): from cholesterol, lipid-soluble, cross membranes, bind nuclear receptors, alter gene expression, slow effects (hours-days). Thyroid hormones are amino acid-derived but behave like steroids (nuclear receptors)."],
      callout:{type:"mcat",text:"Fast onset = peptide + surface receptor + second messenger. Delayed/prolonged = steroid + nuclear receptor + gene expression. Trap: aldosterone is a steroid (hours), ADH is a peptide (minutes). Both act on the kidney but through completely different mechanisms and time scales."},
+     workedExample:{title:"Peptide vs. Steroid: Insulin and Cortisol Side by Side",steps:[{label:"Insulin (peptide hormone)",text:"Cannot cross cell membrane. Binds receptor tyrosine kinase (RTK) on cell surface. Autophosphorylation \u2192 downstream cascade \u2192 GLUT4 vesicles fuse with membrane in minutes. Fast."},{label:"Cortisol (steroid hormone)",text:"Lipid-soluble. Crosses membrane freely. Binds cytoplasmic glucocorticoid receptor. Receptor-cortisol complex enters nucleus. Alters gene transcription. Protein synthesis needed. Effect in hours."},{label:"Why the delay matters clinically",text:"Treating an asthma attack with an IV steroid takes hours to work. That is not a treatment failure \u2014 that is biology. A bronchodilator (acts on surface receptors) works in minutes."},{label:"MCAT trap",text:"ADH (peptide) inserts aquaporins fast. Aldosterone (steroid) changes gene expression slowly. Both are 'kidney hormones' but mechanistically opposite."},{label:"The rule",text:"When asked about mechanism: peptide = surface receptor + second messenger + fast. Steroid = nuclear receptor + gene expression + slow."}]},
      quickCheck:{question:"Insulin binds a receptor tyrosine kinase. The downstream effect is GLUT4 insertion. This is:",options:["Steroid mechanism with gene expression","Peptide mechanism with intracellular signaling cascade","Paracrine signaling","Direct channel opening"],correct:1,explain:"Insulin is a peptide hormone. It binds a surface RTK, which autophosphorylates and activates PI3K/Akt, triggering GLUT4 vesicle fusion. Relatively fast because it uses existing GLUT4 vesicles, not new protein synthesis."}
     },
     {heading:"Hypothalamic-Pituitary Axis",
-     paragraphs:["The hypothalamus links nervous and endocrine systems. It controls the anterior pituitary via releasing hormones through the hypothalamic-hypophyseal portal system. The posterior pituitary stores/releases ADH and oxytocin (made in hypothalamus).","Major axes: HPT (TRH --> TSH --> T3/T4), HPA (CRH --> ACTH --> cortisol), HPG (GnRH --> FSH/LH --> sex hormones). Each uses negative feedback: end hormone inhibits hypothalamus and pituitary."],
-     chain:"Hypothalamus (releasing hormone) --> Anterior pituitary (tropic hormone) --> Target gland (end hormone) --> Negative feedback to hypothalamus + pituitary",
+     paragraphs:["The hypothalamus links nervous and endocrine systems. It controls the anterior pituitary via releasing hormones through the hypothalamic-hypophyseal portal system. The posterior pituitary stores/releases ADH and oxytocin (made in hypothalamus).","Major axes: HPT (TRH \u2192 TSH \u2192 T3/T4), HPA (CRH \u2192 ACTH \u2192 cortisol), HPG (GnRH \u2192 FSH/LH \u2192 sex hormones). Each uses negative feedback: end hormone inhibits hypothalamus and pituitary."],
+     chain:"Hypothalamus (releasing hormone) \u2192 Anterior pituitary (tropic hormone) \u2192 Target gland (end hormone) \u2192 Negative feedback to hypothalamus + pituitary",
+     workedExample:{title:"Breaking the Axis: Three Different Ways TSH Can Be Abnormal",steps:[{label:"Normal",text:"TRH \u2192 TSH \u2192 T3/T4 \u2192 feedback suppresses TRH and TSH. All values in normal range."},{label:"Primary hypothyroidism (thyroid fails)",text:"Thyroid cannot make T3/T4. T3/T4 LOW. No feedback. TRH HIGH. TSH HIGH (pituitary screaming at a deaf gland)."},{label:"Secondary hypothyroidism (pituitary fails)",text:"Pituitary adenoma or damage. Cannot make TSH. TSH LOW. No stimulation to thyroid. T3/T4 LOW. TRH HIGH."},{label:"Graves disease (antibody mimics TSH)",text:"Antibodies stimulate thyroid continuously. T3/T4 HIGH. Negative feedback crushes TSH. TSH LOW. Antibodies cannot be suppressed by feedback."},{label:"The diagnostic use",text:"TSH is the best screening test. High TSH = primary hypothyroid. Low TSH = hyperthyroid (or secondary hypothyroid). Then look at T4 to confirm."}]},
      quickCheck:{question:"Pituitary adenoma produces excess ACTH. What happens to cortisol and CRH?",options:["Cortisol high, CRH high","Cortisol high, CRH low","Cortisol low, CRH high","Cortisol low, CRH low"],correct:1,explain:"Excess ACTH drives adrenal cortex to overproduce cortisol. High cortisol feeds back to suppress CRH. But CRH suppression cannot stop the autonomous adenoma. Result: high cortisol, low CRH. Feedback loop break pattern."}
     },
     {heading:"Glucose Homeostasis",
      paragraphs:["Insulin (beta cells): promotes glucose uptake (GLUT4), glycogenesis, lipogenesis, protein synthesis. Anabolic. Released when glucose is high (fed state).","Glucagon (alpha cells): promotes glycogenolysis, gluconeogenesis, lipolysis. Catabolic. Released when glucose is low (fasting). These two form a feedback loop maintaining glucose 70-110 mg/dL."],
      callout:{type:"connection",text:"Glucose homeostasis connects to nearly every system. Liver: main effector for glucagon. Kidneys: contribute to gluconeogenesis, reabsorb glucose. Nervous system: glucose-dependent neurons. CV: chronic hyperglycemia damages endothelium. Immune: hyperglycemia impairs neutrophils. Any diabetes scenario can lead to any system."},
+     workedExample:{title:"The 48-Hour Fast: Fuel Sources in Order",steps:[{label:"0-4 hours: fed state",text:"Insulin high. Glucose absorbed from gut. Liver stores glucose as glycogen. Brain runs on glucose."},{label:"4-18 hours: glycogenolysis",text:"Insulin falls. Glucagon rises. Liver glycogen is broken down to release glucose. This sustains blood glucose."},{label:"18-24 hours: glycogen depleted",text:"Liver glycogen stores are exhausted (~70-90 g). Glucose must now be made from scratch."},{label:"24-48 hours: gluconeogenesis takes over",text:"Liver (and kidneys) make glucose from amino acids (from muscle protein), lactate, and glycerol (from fat breakdown). This is slow but continuous."},{label:"Beyond 48 hours: ketogenesis",text:"Fatty acids are beta-oxidized to acetyl-CoA. Liver converts excess acetyl-CoA to ketone bodies. Brain adapts to use ketones. This spares muscle protein."}]},
      quickCheck:{question:"During a 48-hour fast after glycogen depletion (~24 hrs), glucose primarily comes from:",options:["Continued glycogenolysis","Gluconeogenesis in liver and kidneys","GI absorption","Fat converted directly to glucose"],correct:1,explain:"After glycogen depletion, gluconeogenesis is the primary glucose source. Liver is the main site using amino acids, lactate, and glycerol. Kidneys also contribute. Fatty acids cannot become glucose directly (they make acetyl-CoA), but glycerol from fat breakdown can."}
     }
   ],
@@ -347,15 +422,18 @@ nervous: {
     {heading:"Autonomic Nervous System",
      paragraphs:["Sympathetic ('fight or flight'): increases HR/contractility (beta-1), dilates bronchioles (beta-2), dilates pupils (alpha-1), diverts blood to muscle, stimulates glucose release. Neurotransmitter: norepinephrine (+ epinephrine from adrenal medulla).","Parasympathetic ('rest and digest'): decreases HR (vagus, M2 muscarinic), constricts pupils, stimulates GI motility/secretion, promotes urination. Neurotransmitter: acetylcholine on muscarinic receptors. Both use ACh at preganglionic synapse (nicotinic receptors)."],
      callout:{type:"mcat",text:"Key receptor associations: beta-1 (heart: rate/contractility up), beta-2 (lungs: bronchodilation), alpha-1 (vessels: vasoconstriction, pupil: dilation), M2 (heart: rate down), M3 (GI: motility up, glands: secretion up). A muscarinic blocker (atropine): increased HR, decreased GI motility, dry mouth, dilated pupils."},
+     workedExample:{title:"Reading the Autonomic Response: Atropine Overdose",steps:[{label:"Atropine mechanism",text:"Atropine is a competitive muscarinic (M) receptor antagonist. It blocks the parasympathetic branch at its end-organ receptors."},{label:"Heart (M2 blocked)",text:"Parasympathetic normally slows the SA node. Block it \u2192 heart rate rises. Tachycardia."},{label:"Eyes (M3 blocked)",text:"Parasympathetic constricts pupils (miosis). Block it \u2192 pupils dilate (mydriasis). Blurry near vision."},{label:"GI tract (M3 blocked)",text:"Parasympathetic drives motility and gland secretion. Block it \u2192 bowel sounds absent, constipation, dry mouth."},{label:"The mnemonic",text:"'Blind as a bat, dry as a bone, red as a beet, hot as a hare, mad as a hatter.' Classic anticholinergic toxidrome. Each symptom maps to a blocked M receptor."}]},
      quickCheck:{question:"Atropine (muscarinic antagonist) would cause:",options:["Decreased heart rate","Increased heart rate","Bronchoconstriction","Increased GI motility"],correct:1,explain:"Blocking muscarinic receptors removes the parasympathetic brake on the heart (M2 on SA node). Heart rate increases. Also: decreased GI motility, dry mouth, pupil dilation."}
     },
     {heading:"Action Potential",
      paragraphs:["Resting potential ~-70 mV maintained by Na+/K+ ATPase (3 Na+ out, 2 K+ in) and K+ leak channels. Threshold (~-55 mV) opens voltage-gated Na+ channels: Na+ rushes in, depolarization to ~+30 mV. Na+ channels inactivate, K+ channels open, repolarization.","Myelination by Schwann cells (PNS) or oligodendrocytes (CNS) enables saltatory conduction: action potential jumps between nodes of Ranvier, increasing speed dramatically."],
+     workedExample:{title:"Hyperkalemia and Cardiac Arrhythmia: A Renal-Cardiac Connection",steps:[{label:"Normal resting potential",text:"Na+/K+ ATPase maintains ~-70 mV. High K+ inside, high Na+ outside. K+ leak channels set the resting potential based on K+ gradient."},{label:"Renal failure raises serum K+",text:"Kidneys fail to excrete K+. Serum K+ rises from 4 to 7 mEq/L."},{label:"Nernst equation shifts",text:"Higher extracellular K+ reduces the K+ gradient. Less K+ leaves the cell. Inside becomes LESS negative. Resting potential rises from -70 to -60 mV."},{label:"Cells are easier to excite",text:"Threshold is still ~-55 mV. The cell is now only 5 mV away instead of 15 mV. Spontaneous firing is more likely."},{label:"Cardiac consequence",text:"Heart cells become hyperexcitable and arrhythmias occur. Ventricular fibrillation at extreme levels. This is why hyperkalemia from renal failure is a cardiac emergency."}]},
      quickCheck:{question:"If extracellular K+ increases (hyperkalemia), resting membrane potential:",options:["Becomes more negative","Becomes less negative (depolarized)","No change","Oscillates"],correct:1,explain:"Resting potential depends on K+ gradient (Nernst equation). If extracellular K+ rises, less K+ flows out, inside becomes less negative (depolarized). Closer to threshold = cardiac arrhythmia risk. Connects renal K+ regulation to cardiac electrophysiology."}
     },
     {heading:"Nervous-Endocrine Connection",
      paragraphs:["The hypothalamus bridges nervous and endocrine systems. Neural inputs (stress, circadian rhythms) become hormonal outputs. The sympathetic system directly stimulates adrenal medulla to release epinephrine/norepinephrine.","The vagus nerve (CN X) innervates heart, lungs, GI. Damage (diabetic neuropathy) causes gastroparesis, resting tachycardia, loss of heart rate variability."],
      callout:{type:"connection",text:"Diabetic neuropathy is high-yield. Chronic hyperglycemia damages all nerve types. Autonomic: CV (tachycardia, orthostatic hypotension), GI (gastroparesis), urinary (neurogenic bladder leading to UTIs). One disease damages one system (nerves) that controls many others."},
+     workedExample:{title:"Diabetic Autonomic Neuropathy: One Disease, Multiple Organ Effects",steps:[{label:"The mechanism of nerve damage",text:"Chronic hyperglycemia \u2192 glucose enters Schwann cells (no insulin needed) \u2192 sorbitol accumulates \u2192 osmotic damage \u2192 nerve fiber injury. Small, unmyelinated fibers first."},{label:"Cardiac autonomic neuropathy",text:"Vagal fibers to heart damaged \u2192 resting tachycardia (no parasympathetic brake). Sympathetic fibers damaged \u2192 orthostatic hypotension (cannot constrict on standing)."},{label:"GI autonomic neuropathy",text:"Vagus controls stomach emptying. Vagal damage \u2192 gastroparesis: stomach does not empty normally. Food sits for hours. Unpredictable glucose absorption \u2192 erratic blood glucose."},{label:"Urinary bladder neuropathy",text:"Sacral autonomic fibers control bladder contraction. Damage \u2192 neurogenic bladder \u2192 incomplete emptying \u2192 urinary retention \u2192 bacteria multiply \u2192 recurrent UTIs."},{label:"The connection to all systems",text:"One metabolic disease (hyperglycemia) damages one tissue (nerves) which controls multiple organs. Knowing nerve targets = knowing all downstream effects."}]},
      quickCheck:{question:"A diabetic with gastroparesis (vagal neuropathy) would have disrupted:",options:["Fat absorption in ileum","Timing of nutrient delivery, disrupting glucose control","Bile production","Pancreatic bicarbonate secretion"],correct:1,explain:"The vagus nerve coordinates stomach emptying. Impaired vagal function means food sits in the stomach unpredictably. For insulin-dependent diabetics, this disrupts glucose timing relative to insulin doses."}
     }
   ],
@@ -369,14 +447,14 @@ integration: {
   title:"Systems Integration Quiz", type:"integration",
   desc:"These questions test cross-system thinking. Each involves at least two organ systems. Select system combinations to practice.",
   questions:[
-    {stem:"An uncontrolled Type 2 diabetic (glucose 380) has frequent UTIs. Best explanation?",options:["High glucose directly destroys immune cells everywhere","Glycosuria provides glucose-rich urine for bacteria + hyperglycemia impairs neutrophil function","Diabetic kidney damage raises urine pH favoring bacteria","Insulin resistance makes immune cells unresponsive"],correct:1,explain:"Three systems: Endocrine (hyperglycemia) affects renal (glucose exceeds Tm, glycosuria) and immune (impaired neutrophil chemotaxis and phagocytosis). Glucose-rich urine feeds bacteria while impaired immunity cannot clear infection.",systems:["endocrine","renal","immune"],chain:"Hyperglycemia --> Glucose exceeds renal Tm --> Glycosuria (bacterial growth medium) + Neutrophil dysfunction --> Recurrent UTIs",logic:"Two converging pathways from one cause create the clinical problem."},
-    {stem:"Heart failure patient on furosemide (loop diuretic) develops metabolic alkalosis. Best explanation?",options:["Furosemide directly increases HCO3- reabsorption","Volume contraction activates RAAS; aldosterone drives H+ and K+ secretion causing alkalosis","Heart failure causes respiratory alkalosis","Furosemide stimulates hyperventilation"],correct:1,explain:"Loop diuretic causes Na+/water loss (treats fluid overload). Volume contraction activates RAAS. Aldosterone increases Na+ reabsorption in exchange for H+ and K+ secretion. H+ loss + HCO3- retention = contraction alkalosis.",systems:["cardio","renal"],chain:"Furosemide --> Na+/water loss --> Volume contracts --> RAAS activates --> Aldosterone rises --> H+ and K+ secreted --> Metabolic alkalosis + hypokalemia",logic:"Domino chain from drug through compensatory mechanism to unintended consequence."},
-    {stem:"Liver cirrhosis causes esophageal varices. The mechanism is:",options:["Scarred liver blocks portal flow, portal pressure rises, blood reroutes through collateral veins including esophageal","Clotting factor deficiency causes bleeding that dilates esophageal veins","Ascites compresses esophagus","Low albumin causes esophageal wall edema"],correct:0,explain:"Cirrhosis replaces liver tissue with scar, obstructing portal flow. Portal hypertension forces blood through collateral vessels (esophageal, rectal, abdominal wall veins). These are not built for high-pressure flow and dilate/become fragile.",systems:["digestive","cardio"],chain:"Cirrhosis --> Portal obstruction --> Portal hypertension --> Collateral circulation --> Esophageal varices --> Rupture risk",logic:"Upstream obstruction forces flow through alternate routes."},
-    {stem:"A CKD patient has anemia, bone pain, and metabolic acidosis. The single underlying cause for all three is:",options:["Kidney fails to produce EPO, activate vitamin D, and excrete H+","Blood loss explains anemia, acidosis causes bone dissolution","Chronic kidney infection","Dialysis side effects"],correct:0,explain:"Three kidney functions: (1) EPO production (peritubular cells) = anemia when lost. (2) 1-alpha-hydroxylase (proximal tubule) activates vitamin D = low Ca2+, high PTH, bone resorption when lost. (3) H+ excretion and HCO3- regeneration = metabolic acidosis when lost. One organ, three functions, three seemingly unrelated symptoms.",systems:["renal","endocrine","pulmonary"],chain:"CKD --> (1) Low EPO --> Anemia / (2) No vitamin D activation --> Low Ca2+ --> High PTH --> Bone pain / (3) Cannot excrete H+ --> Metabolic acidosis",logic:"One organ failure, three parallel downstream effects."},
-    {stem:"A burn patient (40% body) develops hypovolemic shock. RAAS activates. But burn-damaged capillaries are extremely leaky. The paradox:",options:["RAAS retains fluid but leaky capillaries let it escape into interstitium; edema worsens while blood volume stays low","RAAS constricts vessels but damaged vessels cannot respond","Aldosterone retains Na+ but burns lose Na+ through skin","ADH retains water but kidneys cannot concentrate urine"],correct:0,explain:"Burns increase capillary permeability. RAAS retains fluid to restore volume. But retained fluid immediately leaks through damaged capillaries into interstitium. Result: massive edema + persistent hypovolemia. This is why burn patients need enormous IV fluid volumes.",systems:["cardio","renal","immune"],chain:"Burns --> Capillary damage --> Fluid loss --> Hypovolemia --> RAAS activates --> Fluid retained --> But leaks right back out --> Persistent hypovolemia + edema",logic:"Broken compensation: RAAS would normally work, but the underlying capillary damage defeats it."},
-    {stem:"High-dose NSAIDs cause gastric ulcers AND reduced kidney function. The shared mechanism is:",options:["NSAIDs block COX, reducing prostaglandins that protect gastric mucosa AND dilate renal afferent arteriole","NSAIDs are directly toxic to both tissues","NSAIDs increase acid and block creatinine secretion","NSAIDs cause systemic vasoconstriction"],correct:0,explain:"Prostaglandins have protective roles in multiple organs. Stomach: PGE2 stimulates mucus/bicarbonate (mucosal protection). Kidney: PGI2/PGE2 dilate afferent arteriole (maintains GFR). NSAIDs block COX everywhere. Result: ulcers (lost protection) + renal impairment (lost vasodilation). Same mechanism, two organs.",systems:["digestive","renal"],chain:"NSAIDs --> Block COX --> Reduced prostaglandins --> (1) Stomach: lost mucosal protection --> Ulcers / (2) Kidney: afferent constricts --> GFR drops",logic:"One mechanism with parallel downstream effects in two organs."},
-    {stem:"ADH makes concentrated urine by increasing water reabsorption in the collecting duct. But what must ALREADY exist for this to work?",options:["Normal GFR","Aldosterone acting first","The medullary osmotic gradient from the loop of Henle's countercurrent multiplier","Complete glucose reabsorption"],correct:2,explain:"ADH inserts aquaporin-2 channels, making the collecting duct permeable to water. But water moves by osmosis: low to high solute concentration. The driving force is the hypertonic medullary interstitium created by the loop of Henle. Without this gradient, opening aquaporin channels would not move water. ADH opens the door; the gradient provides the driving force.",systems:["renal","endocrine"],chain:"Loop of Henle creates gradient (prerequisite) --> Dehydration --> ADH released --> Aquaporins inserted --> Water follows gradient --> Concentrated urine",logic:"Prerequisite pattern: one mechanism must set the stage before another can act."},
-    {stem:"Emphysema patient develops right-sided heart failure (cor pulmonale). The connection:",options:["Emphysema increases left atrial pressure","Alveolar destruction causes chronic hypoxia, triggering widespread pulmonary vasoconstriction that overloads the right ventricle","Loss of alveoli reduces blood return to left heart","Emphysema damages pulmonary veins"],correct:1,explain:"Emphysema destroys alveoli, reducing gas exchange surface area and causing chronic hypoxia. Pulmonary arterioles constrict in response (HPV). When hypoxia is widespread, many arterioles constrict simultaneously, greatly increasing pulmonary vascular resistance. The right ventricle pumps against increased resistance, hypertrophies, and eventually fails.",systems:["pulmonary","cardio"],chain:"Emphysema --> Alveolar destruction --> Chronic hypoxia --> Global HPV --> Increased pulmonary vascular resistance --> RV overload --> RV hypertrophy --> Cor pulmonale",logic:"A protective local mechanism (HPV) becomes pathological when triggered globally."}
+    {stem:"An uncontrolled Type 2 diabetic (glucose 380) has frequent UTIs. Best explanation?",options:["High glucose directly destroys immune cells everywhere","Glycosuria provides glucose-rich urine for bacteria + hyperglycemia impairs neutrophil function","Diabetic kidney damage raises urine pH favoring bacteria","Insulin resistance makes immune cells unresponsive"],correct:1,explain:"Three systems: Endocrine (hyperglycemia) affects renal (glucose exceeds Tm, glycosuria) and immune (impaired neutrophil chemotaxis and phagocytosis). Glucose-rich urine feeds bacteria while impaired immunity cannot clear infection.",systems:["endocrine","renal","immune"],chain:"Hyperglycemia \u2192 Glucose exceeds renal Tm \u2192 Glycosuria (bacterial growth medium) + Neutrophil dysfunction \u2192 Recurrent UTIs",logic:"Two converging pathways from one cause create the clinical problem."},
+    {stem:"Heart failure patient on furosemide (loop diuretic) develops metabolic alkalosis. Best explanation?",options:["Furosemide directly increases HCO3- reabsorption","Volume contraction activates RAAS; aldosterone drives H+ and K+ secretion causing alkalosis","Heart failure causes respiratory alkalosis","Furosemide stimulates hyperventilation"],correct:1,explain:"Loop diuretic causes Na+/water loss (treats fluid overload). Volume contraction activates RAAS. Aldosterone increases Na+ reabsorption in exchange for H+ and K+ secretion. H+ loss + HCO3- retention = contraction alkalosis.",systems:["cardio","renal"],chain:"Furosemide \u2192 Na+/water loss \u2192 Volume contracts \u2192 RAAS activates \u2192 Aldosterone rises \u2192 H+ and K+ secreted \u2192 Metabolic alkalosis + hypokalemia",logic:"Domino chain from drug through compensatory mechanism to unintended consequence."},
+    {stem:"Liver cirrhosis causes esophageal varices. The mechanism is:",options:["Scarred liver blocks portal flow, portal pressure rises, blood reroutes through collateral veins including esophageal","Clotting factor deficiency causes bleeding that dilates esophageal veins","Ascites compresses esophagus","Low albumin causes esophageal wall edema"],correct:0,explain:"Cirrhosis replaces liver tissue with scar, obstructing portal flow. Portal hypertension forces blood through collateral vessels (esophageal, rectal, abdominal wall veins). These are not built for high-pressure flow and dilate/become fragile.",systems:["digestive","cardio"],chain:"Cirrhosis \u2192 Portal obstruction \u2192 Portal hypertension \u2192 Collateral circulation \u2192 Esophageal varices \u2192 Rupture risk",logic:"Upstream obstruction forces flow through alternate routes."},
+    {stem:"A CKD patient has anemia, bone pain, and metabolic acidosis. The single underlying cause for all three is:",options:["Kidney fails to produce EPO, activate vitamin D, and excrete H+","Blood loss explains anemia, acidosis causes bone dissolution","Chronic kidney infection","Dialysis side effects"],correct:0,explain:"Three kidney functions: (1) EPO production (peritubular cells) = anemia when lost. (2) 1-alpha-hydroxylase (proximal tubule) activates vitamin D = low Ca2+, high PTH, bone resorption when lost. (3) H+ excretion and HCO3- regeneration = metabolic acidosis when lost. One organ, three functions, three seemingly unrelated symptoms.",systems:["renal","endocrine","pulmonary"],chain:"CKD \u2192 (1) Low EPO \u2192 Anemia / (2) No vitamin D activation \u2192 Low Ca2+ \u2192 High PTH \u2192 Bone pain / (3) Cannot excrete H+ \u2192 Metabolic acidosis",logic:"One organ failure, three parallel downstream effects."},
+    {stem:"A burn patient (40% body) develops hypovolemic shock. RAAS activates. But burn-damaged capillaries are extremely leaky. The paradox:",options:["RAAS retains fluid but leaky capillaries let it escape into interstitium; edema worsens while blood volume stays low","RAAS constricts vessels but damaged vessels cannot respond","Aldosterone retains Na+ but burns lose Na+ through skin","ADH retains water but kidneys cannot concentrate urine"],correct:0,explain:"Burns increase capillary permeability. RAAS retains fluid to restore volume. But retained fluid immediately leaks through damaged capillaries into interstitium. Result: massive edema + persistent hypovolemia. This is why burn patients need enormous IV fluid volumes.",systems:["cardio","renal","immune"],chain:"Burns \u2192 Capillary damage \u2192 Fluid loss \u2192 Hypovolemia \u2192 RAAS activates \u2192 Fluid retained \u2192 But leaks right back out \u2192 Persistent hypovolemia + edema",logic:"Broken compensation: RAAS would normally work, but the underlying capillary damage defeats it."},
+    {stem:"High-dose NSAIDs cause gastric ulcers AND reduced kidney function. The shared mechanism is:",options:["NSAIDs block COX, reducing prostaglandins that protect gastric mucosa AND dilate renal afferent arteriole","NSAIDs are directly toxic to both tissues","NSAIDs increase acid and block creatinine secretion","NSAIDs cause systemic vasoconstriction"],correct:0,explain:"Prostaglandins have protective roles in multiple organs. Stomach: PGE2 stimulates mucus/bicarbonate (mucosal protection). Kidney: PGI2/PGE2 dilate afferent arteriole (maintains GFR). NSAIDs block COX everywhere. Result: ulcers (lost protection) + renal impairment (lost vasodilation). Same mechanism, two organs.",systems:["digestive","renal"],chain:"NSAIDs \u2192 Block COX \u2192 Reduced prostaglandins \u2192 (1) Stomach: lost mucosal protection \u2192 Ulcers / (2) Kidney: afferent constricts \u2192 GFR drops",logic:"One mechanism with parallel downstream effects in two organs."},
+    {stem:"ADH makes concentrated urine by increasing water reabsorption in the collecting duct. But what must ALREADY exist for this to work?",options:["Normal GFR","Aldosterone acting first","The medullary osmotic gradient from the loop of Henle's countercurrent multiplier","Complete glucose reabsorption"],correct:2,explain:"ADH inserts aquaporin-2 channels, making the collecting duct permeable to water. But water moves by osmosis: low to high solute concentration. The driving force is the hypertonic medullary interstitium created by the loop of Henle. Without this gradient, opening aquaporin channels would not move water. ADH opens the door; the gradient provides the driving force.",systems:["renal","endocrine"],chain:"Loop of Henle creates gradient (prerequisite) \u2192 Dehydration \u2192 ADH released \u2192 Aquaporins inserted \u2192 Water follows gradient \u2192 Concentrated urine",logic:"Prerequisite pattern: one mechanism must set the stage before another can act."},
+    {stem:"Emphysema patient develops right-sided heart failure (cor pulmonale). The connection:",options:["Emphysema increases left atrial pressure","Alveolar destruction causes chronic hypoxia, triggering widespread pulmonary vasoconstriction that overloads the right ventricle","Loss of alveoli reduces blood return to left heart","Emphysema damages pulmonary veins"],correct:1,explain:"Emphysema destroys alveoli, reducing gas exchange surface area and causing chronic hypoxia. Pulmonary arterioles constrict in response (HPV). When hypoxia is widespread, many arterioles constrict simultaneously, greatly increasing pulmonary vascular resistance. The right ventricle pumps against increased resistance, hypertrophies, and eventually fails.",systems:["pulmonary","cardio"],chain:"Emphysema \u2192 Alveolar destruction \u2192 Chronic hypoxia \u2192 Global HPV \u2192 Increased pulmonary vascular resistance \u2192 RV overload \u2192 RV hypertrophy \u2192 Cor pulmonale",logic:"A protective local mechanism (HPV) becomes pathological when triggered globally."}
   ]
 }
 };
@@ -384,9 +462,19 @@ integration: {
 // ============================================================
 // RENDERING ENGINE
 // ============================================================
-const main = document.getElementById('mainContent');
+const main = document.getElementById('main-content');
 const navBar = document.getElementById('navBar');
 let currentPanel = 'guide';
+
+function renderWorkedExample(we) {
+  if (!we) return '';
+  let h = `<div class="worked-example"><h4>${we.title}</h4>`;
+  we.steps.forEach(s => {
+    h += `<div class="step-box"><div class="step-label">${s.label}</div><p>${s.text}</p></div>`;
+  });
+  h += `</div>`;
+  return h;
+}
 
 function renderGuide(data) {
   let h = `<div class="learn-block"><h2>${data.title}</h2><p>Before diving into individual organ systems, learn the logic patterns the MCAT uses to build questions. Recognizing the pattern is half the battle. Once you see the structure, even unfamiliar content becomes manageable.</p></div>`;
@@ -398,20 +486,26 @@ function renderGuide(data) {
       <div class="callout callout-mcat"><div class="callout-label">Example Scenario</div><p>${p.example}</p></div>
       <div class="callout callout-tip"><div class="callout-label">How to Trace It</div><p>${p.logic}</p></div>
       <div class="callout callout-connection"><div class="callout-label">Study Tip</div><p>${p.tip}</p></div>
+      ${p.workedExample ? renderWorkedExample(p.workedExample) : ''}
     </div>`;
   });
   return h;
 }
 
 function renderQuickCheck(qc, uid) {
+  const legendId = 'qc-legend-' + uid;
   let h = `<div class="quick-check" id="qc-${uid}">
-    <div class="qc-label">Quick Check</div>
+    <div class="qc-label" id="${legendId}">Quick Check</div>
     <div class="qc-question">${qc.question}</div>
-    <div class="qc-options">`;
+    <fieldset style="border:none;padding:0;margin:0;" aria-labelledby="${legendId}">
+      <legend class="sr-only">${qc.question}</legend>
+      <div class="qc-options">`;
   qc.options.forEach((opt, i) => {
-    h += `<button class="qc-opt" onclick="handleQC('${uid}',${i},${qc.correct})">${opt}</button>`;
+    h += `<button class="qc-opt" onclick="handleQC('${uid}',${i},${qc.correct})" aria-label="Option ${i+1}: ${opt}">${opt}</button>`;
   });
-  h += `</div><div class="qc-explain" id="qce-${uid}">${qc.explain}</div></div>`;
+  h += `</div></fieldset>
+    <div class="qc-explain" id="qce-${uid}" role="alert">${qc.explain}</div>
+  </div>`;
   return h;
 }
 
@@ -422,76 +516,72 @@ function handleQC(uid, chosen, correct) {
     if(i===correct) b.classList.add('correct');
     else if(i===chosen && i!==correct) b.classList.add('incorrect');
     if(i!==chosen && i!==correct) b.classList.add('dimmed');
+    b.disabled = true;
     b.style.pointerEvents='none';
   });
-  document.getElementById('qce-'+uid).classList.add('show');
+  const expEl = document.getElementById('qce-'+uid);
+  expEl.classList.add('show');
+  const result = chosen === correct ? 'Correct!' : 'Incorrect.';
+  announce(result + ' ' + expEl.textContent);
 }
 
 function renderContent(data) {
   let h = `<div class="section-intro"><h2>${data.title}</h2><p>Learn the core concepts first, then test yourself with MCAT-style practice questions. Questions tagged with other system names test cross-system connections.</p></div>`;
-
-  // Tab bar
-  h += `<div class="tab-row">
-    <button class="tab-btn active" onclick="switchTab(this,'learn')">Learn</button>
-    <button class="tab-btn" onclick="switchTab(this,'practice')">Practice Questions</button>
+  h += `<div class="tab-row" role="tablist" aria-label="${data.title} sections">
+    <button role="tab" aria-selected="true" class="tab-btn active" onclick="switchTab(this,'learn')">Learn</button>
+    <button role="tab" aria-selected="false" class="tab-btn" onclick="switchTab(this,'practice')">Practice Questions</button>
   </div>`;
-
-  // LEARN TAB
-  h += `<div class="tab-content active" id="tab-learn">`;
+  h += `<div class="tab-content active" id="tab-learn" role="tabpanel">`;
   data.content.forEach((block, bi) => {
     const uid = currentPanel + '-' + bi;
     h += `<div class="learn-block"><h2>${block.heading}</h2>`;
     block.paragraphs.forEach(p => { h += `<p>${p}</p>`; });
-    if(block.chain) h += `<div class="chain">${block.chain}</div>`;
+    if(block.chain) h += `<div class="chain" role="note" aria-label="Physiological chain">${block.chain}</div>`;
     if(block.callout) {
       h += `<div class="callout callout-${block.callout.type}"><div class="callout-label">${
         block.callout.type==='mcat'?'MCAT Insight':block.callout.type==='connection'?'Systems Connection':block.callout.type==='tip'?'Study Tip':'Watch Out'
       }</div><p>${block.callout.text}</p></div>`;
     }
+    if(block.workedExample) h += renderWorkedExample(block.workedExample);
     if(block.quickCheck) h += renderQuickCheck(block.quickCheck, uid);
     h += `</div>`;
   });
   h += `</div>`;
-
-  // PRACTICE TAB
-  h += `<div class="tab-content" id="tab-practice">`;
+  h += `<div class="tab-content" id="tab-practice" role="tabpanel">`;
   h += renderQuestions(data.questions, currentPanel);
   h += `</div>`;
-
   return h;
 }
 
 function renderQuestions(questions, prefix) {
   let h = '';
   const totalQ = questions.length;
-  h += `<div class="progress-bar"><div class="progress-text" id="prog-text-${prefix}">0 / ${totalQ} answered</div><div class="progress-track"><div class="progress-fill" id="prog-fill-${prefix}" style="width:0%"></div></div></div>`;
+  h += `<div class="progress-bar"><div class="progress-text" id="prog-text-${prefix}" role="status" aria-live="polite">0 / ${totalQ} answered</div><div class="progress-track"><div class="progress-fill" id="prog-fill-${prefix}" style="width:0%"></div></div></div>`;
 
   questions.forEach((q, qi) => {
     const qid = prefix + '-q' + qi;
+    const legendId = qid + '-legend';
     h += `<div class="q-card" id="${qid}">`;
     h += `<div class="q-number">Question ${qi+1} of ${totalQ}</div>`;
-    // Tags
     if(q.tags) {
-      h += `<div class="q-tags">`;
-      q.tags.forEach(t => {
-        h += `<span class="q-tag-pill ${q.tags.length>1?'q-tag-sys':'q-tag-single'}">${t}</span>`;
-      });
+      h += `<div class="q-tags" aria-label="Systems covered">`;
+      q.tags.forEach(t => { h += `<span class="q-tag-pill ${q.tags.length>1?'q-tag-sys':'q-tag-single'}">${t}</span>`; });
       h += `</div>`;
     }
     if(q.systems) {
-      h += `<div class="q-tags">`;
+      h += `<div class="q-tags" aria-label="Systems covered">`;
       q.systems.forEach(s => { h += `<span class="q-tag-pill q-tag-sys">${s}</span>`; });
       h += `</div>`;
     }
-    if(q.passage) h += `<div class="q-passage">${q.passage}</div>`;
-    h += `<div class="q-stem">${q.stem}</div>`;
+    if(q.passage) h += `<div class="q-passage" role="note">${q.passage}</div>`;
+    h += `<div class="q-stem" id="${legendId}">${q.stem}</div>`;
+    h += `<fieldset style="border:none;padding:0;margin:0;" aria-labelledby="${legendId}"><legend class="sr-only">${q.stem}</legend>`;
     h += `<div class="q-options">`;
     q.options.forEach((opt, oi) => {
-      h += `<button class="q-opt" onclick="handleQ('${qid}',${oi},${q.correct},'${prefix}',${totalQ})">${String.fromCharCode(65+oi)}. ${opt}</button>`;
+      h += `<button class="q-opt" onclick="handleQ('${qid}',${oi},${q.correct},'${prefix}',${totalQ})" aria-label="Option ${String.fromCharCode(65+oi)}: ${opt}">${String.fromCharCode(65+oi)}. ${opt}</button>`;
     });
-    h += `</div>`;
-    // Explanation
-    h += `<div class="q-explain" id="${qid}-exp">`;
+    h += `</div></fieldset>`;
+    h += `<div class="q-explain" id="${qid}-exp" role="alert">`;
     h += `<div class="explain-label">Explanation</div><p>${q.explain}</p>`;
     if(q.chain) h += `<div class="q-chain"><div class="q-chain-label">Systems Chain</div>${q.chain}</div>`;
     if(q.logic) h += `<div class="q-logic"><div class="q-logic-label">Logic Pattern</div>${q.logic}</div>`;
@@ -508,9 +598,13 @@ function handleQ(qid, chosen, correct, prefix, total) {
     if(i===correct) b.classList.add('correct');
     else if(i===chosen && i!==correct) b.classList.add('incorrect');
     if(i!==chosen && i!==correct) b.classList.add('dimmed');
+    b.disabled = true;
     b.style.pointerEvents='none';
   });
-  document.getElementById(qid+'-exp').classList.add('show');
+  const expEl = document.getElementById(qid+'-exp');
+  expEl.classList.add('show');
+  const result = chosen === correct ? 'Correct!' : 'Incorrect.';
+  announce(result + ' ' + expEl.querySelector('p').textContent);
   if(!answered[qid]) {
     answered[qid] = true;
     const count = Object.keys(answered).filter(k => k.startsWith(prefix+'-q')).length;
@@ -525,9 +619,9 @@ function handleQ(qid, chosen, correct, prefix, total) {
 function renderIntegration(data) {
   const allSys = ['cardio','renal','pulmonary','digestive','immune','endocrine','nervous'];
   let h = `<div class="section-intro"><h2>${data.title}</h2><p>${data.desc}</p></div>`;
-  h += `<div class="quiz-filter" id="intFilter">`;
+  h += `<div class="quiz-filter" id="intFilter" role="group" aria-label="Filter by system">`;
   allSys.forEach(s => {
-    h += `<button class="quiz-tag active" data-sys="${s}" onclick="toggleFilter(this)">${s}</button>`;
+    h += `<button class="quiz-tag active" data-sys="${s}" onclick="toggleFilter(this)" aria-pressed="true">${s}</button>`;
   });
   h += `</div>`;
   h += `<div id="intQuestions">`;
@@ -537,7 +631,8 @@ function renderIntegration(data) {
 }
 
 function toggleFilter(btn) {
-  btn.classList.toggle('active');
+  const isActive = btn.classList.toggle('active');
+  btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
   filterIntegrationQuestions();
 }
 
@@ -550,15 +645,21 @@ function filterIntegrationQuestions() {
     const match = q.systems.some(s => activeSys.includes(s));
     card.style.display = match ? 'block' : 'none';
   });
+  announce('Filter updated. Showing questions for: ' + (activeSys.length ? activeSys.join(', ') : 'no systems selected'));
 }
 
 function switchTab(btn, tab) {
   const row = btn.parentElement;
-  row.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  row.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+  });
   btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
   const parent = row.parentElement;
   parent.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
+  announce('Switched to ' + btn.textContent.trim() + ' tab.');
 }
 
 function showPanel(key) {
@@ -569,27 +670,24 @@ function showPanel(key) {
   else if(data.type === 'integration') main.innerHTML = renderIntegration(data);
   else main.innerHTML = renderContent(data);
   window.scrollTo({top:0,behavior:'smooth'});
+  announce('Navigated to ' + data.title);
 }
 
 // NAV
 navBar.addEventListener('click', e => {
-  if(!e.target.classList.contains('nav-btn')) return;
-  navBar.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  e.target.classList.add('active');
-  showPanel(e.target.dataset.panel);
+  const btn = e.target.closest('.nav-btn');
+  if(!btn) return;
+  navBar.querySelectorAll('.nav-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+  showPanel(btn.dataset.panel);
 });
 
 // INIT
 showPanel('guide');
 </script>
-
-  <div style="max-width: 800px; margin: 40px auto; padding: 20px 30px; background: #fff8e1; border-left: 4px solid #f9a825; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #555;">
-  <div style="font-weight: bold; font-size: 15px; margin-bottom: 10px;"><span aria-hidden="true">⚠️</span> Important Notice</div>
-  <p style="margin: 0 0 10px 0;">These study resources are provided free of charge for educational purposes only. They are intended as supplemental study aids and should not be used as a substitute for your course textbooks, lecture materials, or the guidance of your instructors.</p>
-  <p style="margin: 0 0 10px 0;">While every effort has been made to ensure accuracy, this content may contain errors, omissions, or information that is out of date. Science is constantly evolving, and material that was accurate at the time of writing may no longer reflect current understanding. Always verify important facts, formulas, and concepts against your official course materials.</p>
-  <p style="margin: 0 0 10px 0;">No guarantees are made regarding the completeness, accuracy, or reliability of any information presented on these sites. Use at your own discretion. If you spot an error, we appreciate you letting us know so it can be corrected.</p>
-  <p style="margin: 0 0 10px 0;">These materials are not affiliated with, endorsed by, or officially connected to any university, college, testing organization, or textbook publisher. All content represents the independent work and ideas of the author.</p>
-  <p style="margin: 0;">This resource is provided "as is" without warranty of any kind, express or implied. The author assumes no liability for any errors or for any actions taken based on the information provided here.</p>
-</div>
 </body>
 </html>
